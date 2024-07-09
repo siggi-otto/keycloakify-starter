@@ -1324,6 +1324,27 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@otto-de/b2b-core-components@1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@otto-de/b2b-core-components/-/b2b-core-components-1.11.1.tgz#32f3a707466631bce7c47797897a50b5520aa096"
+  integrity sha512-IC6gSdAuZ1h35G+GC12eY+5Klld8kHqhwGAYqUu2VEh+Frkj9FZSmTb9P6nF2dmIq5my27xAD1yVbkgRpgmPHA==
+  dependencies:
+    "@otto-de/b2b-tokens" "1.11.1"
+    "@stencil-community/eslint-plugin" "^0.5.0"
+    "@stencil/core" "^4.12.4"
+
+"@otto-de/b2b-react-components@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@otto-de/b2b-react-components/-/b2b-react-components-1.11.1.tgz#24bd53d5f641b8bc59664b2af7fd7c2a1a4f5e9e"
+  integrity sha512-aPdm0DUav6l8dHn3rUGz7ID0eXxtlvyqEdRfjBQ48MH8j71gDUNZ/nxp8o0Vf91Z6gj5M43rNljpw8Y0/uZTXA==
+  dependencies:
+    "@otto-de/b2b-core-components" "1.11.1"
+
+"@otto-de/b2b-tokens@1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@otto-de/b2b-tokens/-/b2b-tokens-1.11.1.tgz#fcab670ed5ba1a4150b1f929caa38c61a1588e77"
+  integrity sha512-hJM/UZ1hd5/goUysiZmnfcIgCT0HpnerC+XO61RySdnUTh99oX5b3q8jPzPU0YHmXaJYv4qNmc7DXmucO591DA==
+
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
@@ -1422,6 +1443,19 @@
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/merge-streams/-/merge-streams-2.3.0.tgz#719df7fb41766bc143369eaa0dd56d8dc87c9958"
   integrity sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==
+
+"@stencil-community/eslint-plugin@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@stencil-community/eslint-plugin/-/eslint-plugin-0.5.0.tgz#f0f212183b28ba16071ae1235ac675ecdd10b59a"
+  integrity sha512-KLn+//K7EalP5GvP1iu8ORMFEWRlLEkwPxQSuS84jkIALFZMa9fbJoNlqeg0St6xZudhRNHlC5iq+7/X6hLpLw==
+  dependencies:
+    eslint-utils "^3.0.0"
+    tsutils "3.0.0"
+
+"@stencil/core@^4.12.4":
+  version "4.19.2"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-4.19.2.tgz#02d377aa0133fa211f5e4c1ace4baa329ed1cde2"
+  integrity sha512-ZdnbHmHEl8E5vN0GWDtONe5w6j3CrSqqxZM4hNLBPkV/aouWKug7D5/Mi6RazfYO5U4fmHQYLwMz60rHcx0G4g==
 
 "@storybook/builder-manager@8.1.10":
   version "8.1.10"
@@ -3093,6 +3127,18 @@ eslint-scope@^7.2.2:
   dependencies:
     esrecurse "^4.3.0"
     estraverse "^5.2.0"
+
+eslint-utils@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-utils/-/eslint-utils-3.0.0.tgz#8aebaface7345bb33559db0a1f13a1d2d48c3672"
+  integrity sha512-uuQC43IGctw68pJA1RgbQS8/NP7rch6Cwd4j3ZBtgo4/8Flj4eGE7ZYSZRN3iq5pVUv6GPdW5Z1RFleo84uLDA==
+  dependencies:
+    eslint-visitor-keys "^2.0.0"
+
+eslint-visitor-keys@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.1.0.tgz#f65328259305927392c938ed44eb0a5c9b2bd303"
+  integrity sha512-0rSmRBzXgDzIsD6mGdJgevzgezI534Cer5L/vyMX0kHzT/jiB43jRhd9YUlMGYLQy2zprNmoT8qasCGtY+QaKw==
 
 eslint-visitor-keys@^3.3.0, eslint-visitor-keys@^3.4.1, eslint-visitor-keys@^3.4.3:
   version "3.4.3"
@@ -5514,6 +5560,13 @@ tslib@^2.0.1, tslib@^2.4.0:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.3.tgz#0438f810ad7a9edcde7a241c3d80db693c8cbfe0"
   integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==
+
+tsutils@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.0.0.tgz#0c5070a17a0503e056da038c48b5a1870a50a9ad"
+  integrity sha512-LjHBWR0vWAUHWdIAoTjoqi56Kz+FDKBgVEuL+gVPG/Pv7QW5IdaDDeK9Txlr6U0Cmckp5EgCIq1T25qe3J6hyw==
+  dependencies:
+    tslib "^1.8.1"
 
 tsutils@^3.21.0:
   version "3.21.0"
