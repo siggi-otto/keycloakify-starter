@@ -1,0 +1,15 @@
+body.kcBodyClass {
+    background: white;
+}
+
+label, span {
+    font-family: OttoSans, Arial, Helvetica, sans-serif;
+}
+
+.kcLabelClass, .kcFormOptionsWrapperClass, #kc-registration {
+    font-size: 14px;
+}
+
+.card-pf {
+    border-color: rgb(212, 2, 29);
+}

@@ -8,6 +8,7 @@ import { useInsertLinkTags } from "keycloakify/tools/useInsertLinkTags";
 import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import { B2bHeadline } from "@otto-de/b2b-react-components";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -118,7 +119,12 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         <div className={kcClsx("kcLoginClass")}>
             <div id="kc-header" className={kcClsx("kcHeaderClass")}>
                 <div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
-                    {msg("loginTitleHtml", realm.displayNameHtml)}
+                    <div id="kc-header-orbidder-icon">
+                        <img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`}/>
+                    </div>
+                    <div>
+                        <B2bHeadline size="400" align="center">{msg("loginTitleHtml", realm.displayNameHtml)}</B2bHeadline>
+                    </div>
                 </div>
             </div>
 
@@ -165,7 +171,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     )}
                     {(() => {
                         const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-                            <h1 id="kc-page-title">{headerNode}</h1>
+                            <B2bHeadline id="kc-page-title" size="200">{headerNode}</B2bHeadline>
                         ) : (
                             <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
                                 <label id="kc-attempted-username">{auth.attemptedUsername}</label>
