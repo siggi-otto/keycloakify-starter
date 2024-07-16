@@ -2,11 +2,8 @@ body.kcBodyClass {
     background: white;
 }
 
-label, span {
+body {
     font-family: OttoSans, Arial, Helvetica, sans-serif;
-}
-
-.kcLabelClass, .kcFormOptionsWrapperClass, #kc-registration {
     font-size: 14px;
 }
 
