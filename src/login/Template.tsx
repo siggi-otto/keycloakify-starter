@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { assert } from "keycloakify/tools/assert";
-import { clsx } from "keycloakify/tools/clsx";
 import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import { useInsertScriptTags } from "keycloakify/tools/useInsertScriptTags";
@@ -182,20 +181,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 								</div>
 							);
 
-							if (displayRequiredFields) {
-								return (
-									<div className={kcClsx("kcContentWrapperClass")}>
-										<div className={clsx(kcClsx("kcLabelWrapperClass"), "subtitle")}>
-											<span className="subtitle">
-												<span className="required">*</span>
-												{msg("requiredFields")}
-											</span>
-										</div>
-										<div className="col-md-10">{node}</div>
-									</div>
-								);
-							}
-
 							return node;
 						})()}
 						{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
@@ -205,6 +190,12 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 							</Alert>
 						)}
 					</Grid>
+					{displayRequiredFields && (
+						<Grid item typography="caption" textAlign="right">
+							<span className="required">*</span>
+							{msg("requiredFields")}
+						</Grid>
+					)}
 					<Grid item>{children}</Grid>
 					{auth !== undefined && auth.showTryAnotherWayLink && (
 						<form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
