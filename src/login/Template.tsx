@@ -7,7 +7,21 @@ import { useInsertLinkTags } from "keycloakify/tools/useInsertLinkTags";
 import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
-import { Alert, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, ThemeProvider, Typography, createTheme } from "@mui/material";
+import {
+	Alert,
+	Button,
+	Card,
+	Container,
+	FormControl,
+	Grid,
+	InputLabel,
+	MenuItem,
+	Paper,
+	Select,
+	ThemeProvider,
+	Typography,
+	createTheme
+} from "@mui/material";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
 	const {
@@ -170,26 +184,27 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 									)}
 								</Grid>
 							) : (
-								<div id="kc-username" className={kcClsx("kcFormGroupClass")}>
-									<label id="kc-attempted-username">{auth.attemptedUsername}</label>
-									<a id="reset-login" href={url.loginRestartFlowUrl} aria-label={msgStr("restartLoginTooltip")}>
-										<div className="kc-login-tooltip">
-											<i className={kcClsx("kcResetFlowIcon")}></i>
-											<span className="kc-tooltip-text">{msg("restartLoginTooltip")}</span>
-										</div>
-									</a>
-								</div>
+								<Card sx={{ p: 2 }}>
+									<Typography textAlign="center" variant="body1" sx={{ mb: 1 }}>
+										{auth.attemptedUsername}
+									</Typography>
+									<Button fullWidth color="secondary" href={url.loginRestartFlowUrl}>
+										{msgStr("restartLoginTooltip")}
+									</Button>
+								</Card>
 							);
 
 							return node;
 						})()}
-						{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-						{displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+					</Grid>
+					{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
+					{displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+						<Grid item>
 							<Alert severity={message.type}>
 								<span dangerouslySetInnerHTML={{ __html: message.summary }} />
 							</Alert>
-						)}
-					</Grid>
+						</Grid>
+					)}
 					{displayRequiredFields && (
 						<Grid item typography="caption" textAlign="right">
 							<span className="required">*</span>

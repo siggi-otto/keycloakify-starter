@@ -88,7 +88,7 @@ export const WithEmailAsUsername: Story = {
 	render: () => (
 		<KcPageStory
 			kcContext={{
-				realm: { loginWithEmailAllowed: false }
+				realm: { registrationEmailAsUsername: true }
 			}}
 		/>
 	)
