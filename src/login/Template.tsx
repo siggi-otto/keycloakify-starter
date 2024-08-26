@@ -211,7 +211,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 							{msg("requiredFields")}
 						</Grid>
 					)}
-					<Grid item>{children}</Grid>
+					<Grid item typography="body1">
+						{children}
+					</Grid>
 					{auth !== undefined && auth.showTryAnotherWayLink && (
 						<form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
 							<div className={kcClsx("kcFormGroupClass")}>
