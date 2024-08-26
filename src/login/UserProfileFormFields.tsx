@@ -1,4 +1,4 @@
-import { useEffect, useReducer, Fragment } from "react";
+import { useEffect, Fragment, useState } from "react";
 import { assert } from "tsafe/assert";
 import type { KcClsx } from "keycloakify/login/lib/kcClsx";
 import {
@@ -11,9 +11,8 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { Attribute } from "keycloakify/login/KcContext";
 import type { KcContext } from "./KcContext";
 import type { I18n } from "./i18n";
-import { FormControl, FormGroup, Grid, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { FormControl, FormGroup, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import PasswordToggle from "./PasswordToggle";
 
 export default function UserProfileFormFields(props: UserProfileFormFieldsProps<KcContext, I18n>) {
 	const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField } = props;
@@ -229,20 +228,20 @@ function InputFiledByType(props: InputFiledByTypeProps) {
 function InputTag(props: InputFiledByTypeProps & { fieldIndex: number | undefined }) {
 	const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors } = props;
 	const isPassword = attribute.name === "password" || attribute.name === "password-confirm";
-	const [isPasswordRevealed, toggleIsPasswordRevealed] = useReducer((isPasswordRevealed: boolean) => !isPasswordRevealed, false);
 	const errorMessageStr = props.displayableErrors.find(error => error.fieldIndex === fieldIndex)?.errorMessageStr;
+	const [passwordVisible, setPasswordVisible] = useState(false);
 
 	return (
 		<>
 			<TextField
-				label={props.i18n.advancedMsgStr(attribute.displayName || "") + (attribute.required && " *")}
+				label={i18n.advancedMsgStr(attribute.displayName || "") + (attribute.required && " *")}
 				type={(() => {
 					const { inputType } = attribute.annotations;
 
 					if (inputType?.startsWith("html5-")) {
 						return inputType.slice(6);
 					}
-					return inputType ?? (!isPassword || isPasswordRevealed ? "text" : "password");
+					return inputType ?? (!isPassword || passwordVisible ? "text" : "password");
 				})()}
 				id={attribute.name}
 				name={attribute.name}
@@ -268,16 +267,12 @@ function InputTag(props: InputFiledByTypeProps & { fieldIndex: number | undefine
 				}}
 				InputProps={{
 					endAdornment: isPassword && (
-						<InputAdornment position="end">
-							<IconButton
-								aria-label="toggle password visibility"
-								onClick={() => {
-									toggleIsPasswordRevealed();
-								}}
-							>
-								{isPasswordRevealed ? <Visibility /> : <VisibilityOff />}
-							</IconButton>
-						</InputAdornment>
+						<PasswordToggle
+							passwordVisible={passwordVisible}
+							controls={attribute.name}
+							setPasswordVisible={setPasswordVisible}
+							i18n={i18n}
+						/>
 					)
 				}}
 				{...Object.fromEntries(Object.entries(attribute.html5DataAnnotations ?? {}).map(([key, value]) => [`data-${key}`, value]))}

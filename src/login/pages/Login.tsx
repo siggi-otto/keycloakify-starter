@@ -4,9 +4,8 @@ import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
-import { Button, Checkbox, FormControlLabel, FormGroup, Grid, IconButton, InputAdornment, Link, TextField } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Button, Checkbox, FormControlLabel, FormGroup, Grid, Link, TextField } from "@mui/material";
+import PasswordToggle from "../PasswordToggle";
 
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
 	const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -21,7 +20,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 	const { msg, msgStr } = i18n;
 
 	const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
-	const [showPassword, setShowPassword] = useState(false);
+	const [passwordVisible, setPasswordVisible] = useState(false);
 
 	return (
 		<Template
@@ -116,14 +115,15 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 									tabIndex={3}
 									label={msg("password")}
 									variant="outlined"
-									type={showPassword ? "text" : "password"}
+									type={passwordVisible ? "text" : "password"}
 									InputProps={{
 										endAdornment: (
-											<InputAdornment position="end">
-												<IconButton aria-label="toggle password visibility" onClick={() => setShowPassword(!showPassword)}>
-													{showPassword ? <Visibility /> : <VisibilityOff />}
-												</IconButton>
-											</InputAdornment>
+											<PasswordToggle
+												passwordVisible={passwordVisible}
+												controls="password"
+												setPasswordVisible={setPasswordVisible}
+												i18n={i18n}
+											/>
 										)
 									}}
 									error={usernameHidden && messagesPerField.existsError("username", "password")}
