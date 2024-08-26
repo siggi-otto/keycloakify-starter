@@ -18,6 +18,7 @@ import {
 	MenuItem,
 	Paper,
 	Select,
+	SelectChangeEvent,
 	ThemeProvider,
 	Typography,
 	createTheme
@@ -168,13 +169,10 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 													labelId="lang-select-label"
 													label={msgStr("languages")}
 													value={currentLanguageTag}
+													onChange={(e: SelectChangeEvent) => (window.location.href = getChangeLocaleUrl(e.target.value))}
 												>
 													{locale.supported.map(({ languageTag }) => (
-														<MenuItem
-															key={languageTag}
-															value={languageTag}
-															onClick={() => getChangeLocaleUrl(languageTag)}
-														>
+														<MenuItem key={languageTag} value={languageTag}>
 															{labelBySupportedLanguageTag[languageTag]}
 														</MenuItem>
 													))}
