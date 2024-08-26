@@ -11,7 +11,7 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { Attribute } from "keycloakify/login/KcContext";
 import type { KcContext } from "./KcContext";
 import type { I18n } from "./i18n";
-import { FormGroup, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import { FormControl, FormGroup, Grid, IconButton, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -228,20 +228,14 @@ function InputFiledByType(props: InputFiledByTypeProps) {
 
 function InputTag(props: InputFiledByTypeProps & { fieldIndex: number | undefined }) {
 	const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors } = props;
-
-	let label = (
-		<>
-			{props.i18n.advancedMsg(attribute.displayName ?? "")}
-			{attribute.required && " *"}
-		</>
-	);
 	const isPassword = attribute.name === "password" || attribute.name === "password-confirm";
 	const [isPasswordRevealed, toggleIsPasswordRevealed] = useReducer((isPasswordRevealed: boolean) => !isPasswordRevealed, false);
 	const errorMessageStr = props.displayableErrors.find(error => error.fieldIndex === fieldIndex)?.errorMessageStr;
+
 	return (
 		<>
 			<TextField
-				label={label}
+				label={props.i18n.advancedMsgStr(attribute.displayName || "") + (attribute.required && " *")}
 				type={(() => {
 					const { inputType } = attribute.annotations;
 
@@ -546,88 +540,87 @@ function TextareaTag(props: InputFiledByTypeProps) {
 
 function SelectTag(props: InputFiledByTypeProps) {
 	const { attribute, dispatchFormAction, kcClsx, displayableErrors, i18n, valueOrValues } = props;
-
 	const { advancedMsg } = i18n;
-
 	const isMultiple = attribute.annotations.inputType === "multiselect";
+	const label = props.i18n.advancedMsgStr(attribute.displayName ?? "");
 
 	return (
-		<select
-			id={attribute.name}
-			name={attribute.name}
-			className={kcClsx("kcInputClass")}
-			aria-invalid={displayableErrors.length !== 0}
-			disabled={attribute.readOnly}
-			multiple={isMultiple}
-			size={attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`)}
-			value={valueOrValues}
-			onChange={event =>
-				dispatchFormAction({
-					action: "update",
-					name: attribute.name,
-					valueOrValues: (() => {
-						if (isMultiple) {
-							return Array.from(event.target.selectedOptions).map(option => option.value);
-						}
+		<FormControl>
+			<InputLabel id={`label-${attribute.name}`}>{label}</InputLabel>
+			<Select
+				label={label}
+				labelId={`label-${attribute.name}`}
+				id={attribute.name}
+				name={attribute.name}
+				className={kcClsx("kcInputClass")}
+				aria-invalid={displayableErrors.length !== 0}
+				disabled={attribute.readOnly}
+				multiple={isMultiple}
+				inputProps={{
+					size: attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`)
+				}}
+				value={valueOrValues}
+				onChange={(event: SelectChangeEvent<string | string[]>) =>
+					dispatchFormAction({
+						action: "update",
+						name: attribute.name,
+						valueOrValues: event.target.value
+					})
+				}
+				onBlur={() =>
+					dispatchFormAction({
+						action: "focus lost",
+						name: attribute.name,
+						fieldIndex: undefined
+					})
+				}
+			>
+				{(() => {
+					const options = (() => {
+						walk: {
+							const { inputOptionsFromValidation } = attribute.annotations;
 
-						return event.target.value;
-					})()
-				})
-			}
-			onBlur={() =>
-				dispatchFormAction({
-					action: "focus lost",
-					name: attribute.name,
-					fieldIndex: undefined
-				})
-			}
-		>
-			{!isMultiple && <option value=""></option>}
-			{(() => {
-				const options = (() => {
-					walk: {
-						const { inputOptionsFromValidation } = attribute.annotations;
-
-						if (inputOptionsFromValidation === undefined) {
-							break walk;
-						}
-
-						assert(typeof inputOptionsFromValidation === "string");
-
-						const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
-
-						if (validator === undefined) {
-							break walk;
-						}
-
-						if (validator.options === undefined) {
-							break walk;
-						}
-
-						return validator.options;
-					}
-
-					return attribute.validators.options?.options ?? [];
-				})();
-
-				return options.map(option => (
-					<option key={option} value={option}>
-						{(() => {
-							if (attribute.annotations.inputOptionLabels !== undefined) {
-								const { inputOptionLabels } = attribute.annotations;
-
-								return advancedMsg(inputOptionLabels[option] ?? option);
+							if (inputOptionsFromValidation === undefined) {
+								break walk;
 							}
 
-							if (attribute.annotations.inputOptionLabelsI18nPrefix !== undefined) {
-								return advancedMsg(`${attribute.annotations.inputOptionLabelsI18nPrefix}.${option}`);
+							assert(typeof inputOptionsFromValidation === "string");
+
+							const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
+
+							if (validator === undefined) {
+								break walk;
 							}
 
-							return option;
-						})()}
-					</option>
-				));
-			})()}
-		</select>
+							if (validator.options === undefined) {
+								break walk;
+							}
+
+							return validator.options;
+						}
+
+						return attribute.validators.options?.options ?? [];
+					})();
+
+					return options.map(option => (
+						<MenuItem key={option} value={option}>
+							{(() => {
+								if (attribute.annotations.inputOptionLabels !== undefined) {
+									const { inputOptionLabels } = attribute.annotations;
+
+									return advancedMsg(inputOptionLabels[option] ?? option);
+								}
+
+								if (attribute.annotations.inputOptionLabelsI18nPrefix !== undefined) {
+									return advancedMsg(`${attribute.annotations.inputOptionLabelsI18nPrefix}.${option}`);
+								}
+
+								return option;
+							})()}
+						</MenuItem>
+					));
+				})()}
+			</Select>
+		</FormControl>
 	);
 }

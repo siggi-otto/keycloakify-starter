@@ -5,7 +5,7 @@ import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFo
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, Link } from "@mui/material";
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid } from "@mui/material";
 import "./register.css";
 
 type RegisterProps = PageProps<Extract<KcContext, { pageId: "register.ftl" }>, I18n> & {
