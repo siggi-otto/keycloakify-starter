@@ -23,6 +23,8 @@ import {
 	Typography,
 	createTheme
 } from "@mui/material";
+import Footer from "./Footer";
+import { MessageKey_defaultSet } from "keycloakify/login/i18n";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
 	const {
@@ -149,7 +151,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					{msg("loginTitleHtml", realm.displayNameHtml)}
 				</Typography>
 			</Container>
-			<Container maxWidth="sm" component={Paper} sx={{ p: 2 }}>
+			<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1 }}>
 				<Grid container spacing={2} direction="column">
 					<Grid item>
 						{(() => {
@@ -239,6 +241,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					)}
 				</Grid>
 			</Container>
+			<Footer translate={(key: string) => msgStr(key as MessageKey_defaultSet)} />
 		</ThemeProvider>
 	);
 }
