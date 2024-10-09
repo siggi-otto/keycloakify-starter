@@ -1,7 +1,7 @@
 {
   "name": "skylab",
   "version": "0.0.0",
-  "description": "Starter for Keycloakify 10",
+  "description": "Starter for Keycloakify 11",
   "repository": {
     "type": "git",
     "url": "git://github.com/codegouvfr/keycloakify-starter.git"
@@ -21,7 +21,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.0",
     "@mui/material": "^6.1.0",
-    "keycloakify": "^10.1.0",
+    "keycloakify": "^11.2.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
