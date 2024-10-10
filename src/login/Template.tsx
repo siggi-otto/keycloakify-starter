@@ -30,7 +30,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 		displayMessage = true,
 		displayRequiredFields = false,
 		headerNode,
-		socialProvidersNode = null,
 		infoNode = null,
 		documentTitle,
 		bodyClassName,
@@ -137,14 +136,15 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 											<FormControl fullWidth>
 												<InputLabel id="lang-select-label">{msgStr("languages")}</InputLabel>
 												<Select
+													variant="outlined"
 													size="small"
 													labelId="lang-select-label"
 													label={msgStr("languages")}
 													value={currentLanguage.label}
 												>
 													{enabledLanguages.map(({ languageTag, label, href }) => (
-														<MenuItem selected={(languageTag === currentLanguage.languageTag)} key={languageTag} value={languageTag}>
-															<Link href={href}>{label}</Link>
+														<MenuItem selected={(languageTag === currentLanguage.languageTag)} key={languageTag} value={label}>
+															<Link underline="none" color="textPrimary" href={href}>{label}</Link>
 														</MenuItem>
 													))}
 												</Select>
@@ -183,26 +183,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					<Grid item typography="body1">
 						{children}
 					</Grid>
-					{auth !== undefined && auth.showTryAnotherWayLink && (
-						<form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
-							<div className={kcClsx("kcFormGroupClass")}>
-								<div className={kcClsx("kcFormGroupClass")}>
-									<input type="hidden" name="tryAnotherWay" value="on" />
-									<a
-										href="#"
-										id="try-another-way"
-										onClick={() => {
-											document.forms["kc-select-try-another-way-form" as never].submit();
-											return false;
-										}}
-									>
-										{msg("doTryAnotherWay")}
-									</a>
-								</div>
-							</div>
-						</form>
-					)}
-					{socialProvidersNode}
 					{displayInfo && (
 						<Grid item textAlign="center" typography="body2">
 							{infoNode}
