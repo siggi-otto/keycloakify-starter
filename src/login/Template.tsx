@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { assert } from "keycloakify/tools/assert";
 import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import { useInsertScriptTags } from "keycloakify/tools/useInsertScriptTags";
@@ -18,10 +17,9 @@ import {
 	MenuItem,
 	Paper,
 	Select,
-	SelectChangeEvent,
 	ThemeProvider,
 	Typography,
-	createTheme
+	createTheme, Link
 } from "@mui/material";
 import Footer from "./Footer";
 import { MessageKey_defaultSet } from "keycloakify/login/i18n";
@@ -45,9 +43,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
 	const { kcClsx } = getKcClsx({ doUseDefaultCss, classes });
 
-	const { msg, msgStr, getChangeLocaleUrl, labelBySupportedLanguageTag, currentLanguageTag } = i18n;
+	const { msg, msgStr, currentLanguage, enabledLanguages} = i18n;
 
-	const { realm, locale, auth, url, message, isAppInitiatedAction, scripts } = kcContext;
+	const { realm, auth, url, message, isAppInitiatedAction, scripts } = kcContext;
 
 	useEffect(() => {
 		document.title = documentTitle ?? msgStr("loginTitle", kcContext.realm.displayName);
@@ -62,18 +60,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 		qualifiedName: "body",
 		className: bodyClassName ?? kcClsx("kcBodyClass")
 	});
-
-	useEffect(() => {
-		const { currentLanguageTag } = locale ?? {};
-
-		if (currentLanguageTag === undefined) {
-			return;
-		}
-
-		const html = document.querySelector("html");
-		assert(html !== null);
-		html.lang = currentLanguageTag;
-	}, []);
 
 	const { areAllStyleSheetsLoaded } = useInsertLinkTags({
 		componentOrHookName: "Template",
@@ -146,7 +132,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 											{headerNode}
 										</Typography>
 									</Grid>
-									{realm.internationalizationEnabled && (assert(locale !== undefined), locale.supported.length > 1) && (
+									{enabledLanguages.length > 1 && (
 										<Grid item>
 											<FormControl fullWidth>
 												<InputLabel id="lang-select-label">{msgStr("languages")}</InputLabel>
@@ -154,12 +140,11 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 													size="small"
 													labelId="lang-select-label"
 													label={msgStr("languages")}
-													value={currentLanguageTag}
-													onChange={(e: SelectChangeEvent) => (window.location.href = getChangeLocaleUrl(e.target.value))}
+													value={currentLanguage.label}
 												>
-													{locale.supported.map(({ languageTag }) => (
-														<MenuItem key={languageTag} value={languageTag}>
-															{labelBySupportedLanguageTag[languageTag]}
+													{enabledLanguages.map(({ languageTag, label, href }) => (
+														<MenuItem selected={(languageTag === currentLanguage.languageTag)} key={languageTag} value={languageTag}>
+															<Link href={href}>{label}</Link>
 														</MenuItem>
 													))}
 												</Select>
