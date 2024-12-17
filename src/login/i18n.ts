@@ -2,9 +2,8 @@ import { i18nBuilder } from "keycloakify/login";
 import type { ThemeName } from "../kc.gen";
 
 /** @see: https://docs.keycloakify.dev/i18n */
-const { useI18n, ofTypeI18n } = i18nBuilder
-    .withThemeName<ThemeName>()
-    .withCustomTranslations({
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { useI18n, ofTypeI18n } = i18nBuilder.withThemeName<ThemeName>().withCustomTranslations({
         de: {
             // With this PR, the message show be included, but for now, it isn't:
             // https://github.com/keycloak/keycloak/pull/28962
