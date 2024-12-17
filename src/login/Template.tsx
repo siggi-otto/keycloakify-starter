@@ -80,6 +80,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 				type: "module",
 				src: `${url.resourcesPath}/js/menu-button-links.js`
 			},
+			// @ts-ignore
 			...scripts.map(
 				script =>
 					({
