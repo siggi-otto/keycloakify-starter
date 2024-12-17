@@ -16,16 +16,16 @@ yarn install # Or use an other package manager, just be sure to delete the yarn.
 
 # Testing the theme locally
 
-[Documentation](https://docs.keycloakify.dev/v/v10/testing-your-theme)
+[Documentation](https://docs.keycloakify.dev/testing-your-theme)
 
 # How to customize the theme
 
-[Documentation](https://docs.keycloakify.dev/v/v10/customization-strategies)
+[Documentation](https://docs.keycloakify.dev/customization-strategies)
 
 # Building the theme
 
 You need to have [Maven](https://maven.apache.org/) installed to build the theme (Maven >= 3.1.1, Java >= 7).  
-The `mvn` command must be in the $PATH.  
+The `mvn` command must be in the $PATH.
 
 -   On macOS: `brew install maven`
 -   On Debian/Ubuntu: `sudo apt-get install maven`
