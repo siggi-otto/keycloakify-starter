@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import type { LazyOrNot } from "keycloakify/tools/LazyOrNot";
 import { getKcClsx, type KcClsx } from "keycloakify/login/lib/kcClsx";
 import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFormFieldsProps";
@@ -9,7 +9,7 @@ import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperT
 import "./register.css";
 
 type RegisterProps = PageProps<Extract<KcContext, { pageId: "register.ftl" }>, I18n> & {
-	UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => JSX.Element>;
+	UserProfileFormFields: LazyOrNot<(props: UserProfileFormFieldsProps) => ReactElement>;
 	doMakeUserConfirmPassword: boolean;
 };
 
