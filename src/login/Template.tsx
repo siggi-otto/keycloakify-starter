@@ -6,6 +6,7 @@ import { useInsertLinkTags } from "keycloakify/tools/useInsertLinkTags";
 import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import "./template.css";
 import {
 	Alert,
 	Button,
@@ -116,10 +117,14 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 	return (
 		<ThemeProvider theme={theme}>
 			<Container maxWidth="xl" sx={{ textAlign: "center", p: 2 }}>
-				<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} />
-				<Typography variant="h4" color="primary">
-					{msg("loginTitleHtml", realm.displayNameHtml)}
-				</Typography>
+				<div className="logo-with-text">
+					<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
+					<div className='text-on-logo'>
+						<Typography variant="h4" color="primary">
+							for {msg("loginTitleHtml", realm.displayNameHtml)}
+						</Typography>
+					</div>
+				</div>
 			</Container>
 			<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1 }}>
 				<Grid container spacing={2} direction="column">

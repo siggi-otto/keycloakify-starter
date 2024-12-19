@@ -1,0 +1,15 @@
+.logo-with-text {
+    position: relative;
+    text-align: center;
+}
+
+.text-on-logo {
+    position: absolute;
+    right: 45%;
+    left: 30%;
+    bottom: 0;
+}
+
+.logo {
+    width: 60%;
+}
