@@ -120,7 +120,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 				<div className="logo-with-text">
 					<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
 					<div className='text-on-logo'>
-						<Typography variant="h4" color="primary">
+						<Typography variant="h5" color="primary">
 							for {msg("loginTitleHtml", realm.displayNameHtml)}
 						</Typography>
 					</div>
