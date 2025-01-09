@@ -116,95 +116,98 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<div className="my-background"
-				 style={{
+			<div style={{
 					 backgroundImage: `url(${import.meta.env.BASE_URL + 'img/orbidder-background.png'})`,
 					 backgroundSize: 'cover',
-					 backgroundRepeat: 'no-repeat'
-
-			}}>
-				<Container maxWidth="xl" sx={{ textAlign: "center", p: 2 }}>
-					<div className="logo-with-text">
-						<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
-						<div className='text-on-logo'>
-							<Typography variant="h5" color="primary">
-								for {msg("loginTitleHtml", realm.displayNameHtml)}
-							</Typography>
+					 backgroundRepeat: 'no-repeat',
+					 height: '100vh'
+				 }}>
+				<Container component={Paper} maxWidth="sm" sx={{ p: 2 }}>
+					<Container maxWidth="xl" sx={{ textAlign: "center", p: 2 }}>
+						<div className="logo-with-text">
+							<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
+							<div className='text-on-logo'>
+								<Typography variant="h5" color="primary">
+									for {msg("loginTitleHtml", realm.displayNameHtml)}
+								</Typography>
+							</div>
 						</div>
-					</div>
-				</Container>
-				<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1 }}>
-					<Grid container spacing={2} direction="column">
-						<Grid item>
-							{(() => {
-								const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-									<Grid container alignItems="center" spacing={2}>
-										<Grid item flex={1}>
-											<Typography variant="h6" color="gray">
-												{headerNode}
-											</Typography>
-										</Grid>
-										{enabledLanguages.length > 1 && (
-											<Grid item>
-												<FormControl fullWidth>
-													<InputLabel id="lang-select-label">{msgStr("languages")}</InputLabel>
-													<Select
-														variant="outlined"
-														size="small"
-														labelId="lang-select-label"
-														label={msgStr("languages")}
-														value={currentLanguage.label}
-													>
-														{enabledLanguages.map(({ languageTag, label, href }) => (
-															<MenuItem selected={(languageTag === currentLanguage.languageTag)} key={languageTag} value={label}>
-																<Link underline="none" color="textPrimary" href={href}>{label}</Link>
-															</MenuItem>
-														))}
-													</Select>
-												</FormControl>
-											</Grid>
-										)}
-									</Grid>
-								) : (
-									<Card sx={{ p: 2 }}>
-										<Typography textAlign="center" variant="body1" sx={{ mb: 1 }}>
-											{auth.attemptedUsername}
-										</Typography>
-										<Button fullWidth color="secondary" href={url.loginRestartFlowUrl}>
-											{msgStr("restartLoginTooltip")}
-										</Button>
-									</Card>
-								);
-
-								return node;
-							})()}
-						</Grid>
-						{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-						{displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+					</Container>
+					<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1 }}>
+						<Grid container spacing={2} direction="column">
 							<Grid item>
-								<Alert severity={message.type}>
-									<span dangerouslySetInnerHTML={{ __html: message.summary }} />
-								</Alert>
+								{(() => {
+									const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
+										<Grid container alignItems="center" spacing={2}>
+											<Grid item flex={1}>
+												<Typography variant="h6" color="gray">
+													{headerNode}
+												</Typography>
+											</Grid>
+											{enabledLanguages.length > 1 && (
+												<Grid item>
+													<FormControl fullWidth>
+														<InputLabel id="lang-select-label">{msgStr("languages")}</InputLabel>
+														<Select
+															variant="outlined"
+															size="small"
+															labelId="lang-select-label"
+															label={msgStr("languages")}
+															value={currentLanguage.label}
+														>
+															{enabledLanguages.map(({ languageTag, label, href }) => (
+																<MenuItem selected={(languageTag === currentLanguage.languageTag)} key={languageTag} value={label}>
+																	<Link underline="none" color="textPrimary" href={href}>{label}</Link>
+																</MenuItem>
+															))}
+														</Select>
+													</FormControl>
+												</Grid>
+											)}
+										</Grid>
+									) : (
+										<Card sx={{ p: 2 }}>
+											<Typography textAlign="center" variant="body1" sx={{ mb: 1 }}>
+												{auth.attemptedUsername}
+											</Typography>
+											<Button fullWidth color="secondary" href={url.loginRestartFlowUrl}>
+												{msgStr("restartLoginTooltip")}
+											</Button>
+										</Card>
+									);
+
+									return node;
+								})()}
 							</Grid>
-						)}
-						{displayRequiredFields && (
-							<Grid item typography="caption" textAlign="right">
-								<span className="required">*</span>
-								{msg("requiredFields")}
+							{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
+							{displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+								<Grid item>
+									<Alert severity={message.type}>
+										<span dangerouslySetInnerHTML={{ __html: message.summary }} />
+									</Alert>
+								</Grid>
+							)}
+							{displayRequiredFields && (
+								<Grid item typography="caption" textAlign="right">
+									<span className="required">*</span>
+									{msg("requiredFields")}
+								</Grid>
+							)}
+							<Grid item typography="body1">
+								{children}
 							</Grid>
-						)}
-						<Grid item typography="body1">
-							{children}
+							{displayInfo && (
+								<Grid item textAlign="center" typography="body2">
+									{infoNode}
+								</Grid>
+							)}
 						</Grid>
-						{displayInfo && (
-							<Grid item textAlign="center" typography="body2">
-								{infoNode}
-							</Grid>
-						)}
-					</Grid>
+					</Container>
 				</Container>
 				<Footer translate={(key: string) => msgStr(key as MessageKey_defaultSet)} />
 			</div>
 			</ThemeProvider>
+
+
 	);
 }
