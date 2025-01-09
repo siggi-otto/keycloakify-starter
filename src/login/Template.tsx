@@ -122,14 +122,14 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					 backgroundRepeat: 'no-repeat',
 					 height: '100vh'
 				 }}>
-				<Container component={Paper} maxWidth="sm" sx={{ p: 2 }}
+				<Container component={Paper} maxWidth="sm" sx={{ p: 2, borderRadius: 5 }}
 						   style={{
 							   position: 'absolute',
 							   left: '50%',
 							   top: '50%',
 							   transform: 'translate(-50%, -50%)'
 						   }}>
-					<Container maxWidth="xl" sx={{ textAlign: "center", p: 2 }}>
+					<Container maxWidth="xl" sx={{ textAlign: "center", p: 2, borderRadius: 5 }}>
 						<div className="logo-with-text">
 							<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
 							<div className='text-on-logo'>
@@ -139,7 +139,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 							</div>
 						</div>
 					</Container>
-					<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1 }}>
+					<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1, borderRadius: 5 }}>
 						<Grid container spacing={2} direction="column">
 							<Grid item>
 								{(() => {
