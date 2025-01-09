@@ -122,7 +122,13 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					 backgroundRepeat: 'no-repeat',
 					 height: '100vh'
 				 }}>
-				<Container component={Paper} maxWidth="sm" sx={{ p: 2 }}>
+				<Container component={Paper} maxWidth="sm" sx={{ p: 2 }}
+						   style={{
+							   position: 'absolute',
+							   left: '50%',
+							   top: '50%',
+							   transform: 'translate(-50%, -50%)'
+						   }}>
 					<Container maxWidth="xl" sx={{ textAlign: "center", p: 2 }}>
 						<div className="logo-with-text">
 							<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
