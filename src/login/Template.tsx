@@ -126,7 +126,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 						   style={{
 							   position: 'absolute',
 							   left: '50%',
-							   top: '50%',
+							   top: '65%',
 							   transform: 'translate(-50%, -50%)'
 						   }}>
 					<Container maxWidth="xl" sx={{ textAlign: "center", p: 2, borderRadius: 5 }}>
