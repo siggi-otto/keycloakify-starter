@@ -120,7 +120,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					 backgroundImage: `url(${import.meta.env.BASE_URL + 'img/orbidder-background.png'})`,
 					 backgroundSize: 'cover',
 					 backgroundRepeat: 'no-repeat',
-					 height: '100vh'
+					 height: '100vh',
+					 opacity: 0.8
 				 }}>
 				<Container component={Paper} maxWidth="sm" sx={{ p: 2, borderRadius: 5 }}
 						   style={{
