@@ -209,8 +209,8 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 							)}
 						</Grid>
 					</Container>
+					<Footer translate={(key: string) => msgStr(key as MessageKey_defaultSet)} />
 				</Container>
-				<Footer translate={(key: string) => msgStr(key as MessageKey_defaultSet)} />
 			</div>
 			</ThemeProvider>
 
