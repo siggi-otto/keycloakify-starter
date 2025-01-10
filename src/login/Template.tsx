@@ -121,7 +121,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 					 backgroundSize: 'cover',
 					 backgroundRepeat: 'no-repeat',
 					 height: '100vh',
-					 opacity: 0.8
+					 opacity: 0.9
 				 }}>
 				<Container component={Paper} maxWidth="sm" sx={{ p: 2, borderRadius: 5 }}
 						   style={{
