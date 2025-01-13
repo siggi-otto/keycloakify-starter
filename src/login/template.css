@@ -5,10 +5,14 @@
 
 .text-on-logo {
     position: absolute;
-    left: 42%;
+    left: 30%;
     top: 75%;
 }
 
 .logo {
-    width: 30%;
+    width: 80%;
+}
+
+body {
+    margin: 0;
 }
