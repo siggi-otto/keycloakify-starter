@@ -15,6 +15,7 @@ const Register = lazy(() => import("./pages/Register"));
 const LoginVerifyEmail = lazy(() => import("./pages/LoginVerifyEmail"));
 const LoginUpdateProfile = lazy(() => import("./pages/LoginUpdateProfile"));
 const LoginUpdatePassword = lazy(() => import("./pages/LoginUpdatePassword"));
+const DeleteAccountConfirm = lazy(() => import("./pages/DeleteAccountConfirm"));
 
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -75,6 +76,14 @@ export default function KcPage(props: { kcContext: KcContext }) {
                                 {...{ kcContext, i18n, classes }}
                                 Template={Template}
                                 doUseDefaultCss={false}
+                            />
+                        );
+                    case "delete-account-confirm.ftl":
+                        return (
+                            <DeleteAccountConfirm
+                                {...{ kcContext, i18n, classes }}
+                                Template={Template}
+                                doUseDefaultCss={true}
                             />
                         );
                     default:
