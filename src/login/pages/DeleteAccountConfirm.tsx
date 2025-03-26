@@ -38,7 +38,7 @@ export default function DeleteAccountConfirm(props: PageProps<Extract<KcContext,
                         </Button>
                     </Grid2>
                     {triggered_from_aia && (
-                        <Grid2 flex={1} textAlign={"right"}>
+                        <Grid2 flex={1} textAlign="right">
                             <Button type="submit" value="true" name="cancel-aia">
                                 {msgStr("doCancel")}
                             </Button>
