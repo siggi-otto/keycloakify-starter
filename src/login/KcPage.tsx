@@ -16,6 +16,7 @@ const LoginVerifyEmail = lazy(() => import("./pages/LoginVerifyEmail"));
 const LoginUpdateProfile = lazy(() => import("./pages/LoginUpdateProfile"));
 const LoginUpdatePassword = lazy(() => import("./pages/LoginUpdatePassword"));
 const DeleteAccountConfirm = lazy(() => import("./pages/DeleteAccountConfirm"));
+const Error = lazy(() => import("./pages/Error"));
 
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -86,6 +87,15 @@ export default function KcPage(props: { kcContext: KcContext }) {
                                 doUseDefaultCss={true}
                             />
                         );
+					case "error.ftl":
+						return (
+							<Error
+								{...{ kcContext, i18n, classes }}
+								Template={Template}
+								doUseDefaultCss={false}
+							/>
+						);
+
                     default:
                         return (
                             <DefaultPage
