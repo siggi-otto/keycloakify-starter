@@ -12,7 +12,7 @@ export default defineConfig({
             postBuild: async buildContext => {
                 await buildEmailTheme({
                     templatesSrcDirPath: import.meta.dirname + "/emails/templates",
-                    assetsDirPath: import.meta.dirname + "/emails/templates/assets",
+                    assetsDirPath: import.meta.dirname + "/public/img",
                     themeNames: buildContext.themeNames,
                     keycloakifyBuildDirPath: buildContext.keycloakifyBuildDirPath,
                     locales: ["de", "en"],
