@@ -24,26 +24,27 @@ const { exp } = createVariablesHelper("password-reset.ftl");
 
 export const Template = ({ locale }: TemplateProps) => (
     <EmailLayout
-        preview={locale === "de" ? `Passwort zurücksetzen` : `Reset password`}
+        preview={
+            locale === "de" ? `Orbidder Passwort zurücksetzen` : `Reset orbidder password`
+        }
         locale={locale}
     >
         {locale === "de" ? (
             <>
                 <Text style={paragraph}>
-                    Jemand hat soeben angefragt, die Zugangsdaten Ihres Orbidder-Kontos zu
-                    ändern. Wenn dies Sie waren, klicken Sie auf den Link unten, um diese
-                    zurückzusetzen.
+                    Es wurde eine Änderung der Zugangsdaten für Ihren Orbidder Account
+                    angefordert. Wenn Sie diese Änderung beantragt haben, klicken Sie auf
+                    den unten stehenden Link.
                 </Text>
                 <Text style={paragraph}>
                     <a href={exp("link")}>Link zum Zurücksetzen der Zugangsdaten</a>
                 </Text>
                 <Text style={paragraph}>
-                    Dieser Link verfällt in{" "}
-                    {exp("linkExpirationFormatter(linkExpiration)")}.
+                    Der Link ist {exp("linkExpirationFormatter(linkExpiration)")} gültig.
                 </Text>
                 <Text style={paragraph}>
-                    Wenn Sie Ihre Zugangsdaten nicht zurücksetzen möchten, ignorieren Sie
-                    diese Nachricht einfach und es wird nichts geändert.
+                    Sollten Sie keine Änderung vollziehen wollen können Sie diese
+                    Nachricht ignorieren und an Ihrem Account wird nichts geändert.
                 </Text>
             </>
         ) : (
@@ -72,5 +73,7 @@ export const getTemplate: GetTemplate = async props => {
 };
 
 export const getSubject: GetSubject = async props => {
-    return props.locale === "de" ? "Passwort zurücksetzen" : "Reset password";
+    return props.locale === "de"
+        ? "Orbidder Passwort zurücksetzen"
+        : "Reset orbidder password";
 };
