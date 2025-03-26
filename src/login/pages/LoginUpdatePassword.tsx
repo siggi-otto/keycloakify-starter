@@ -94,7 +94,7 @@ export default function LoginUpdatePassword(props: PageProps<Extract<KcContext, 
                                     <Button
                                         variant="contained"
                                         type="submit"
-                                        color="info"
+                                        color="inherit"
                                         name="cancel-aia"
                                         formNoValidate
                                     >

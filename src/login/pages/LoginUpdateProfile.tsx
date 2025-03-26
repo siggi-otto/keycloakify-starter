@@ -51,24 +51,13 @@ export default function LoginUpdateProfile(props: LoginUpdateProfileProps) {
                         <Grid2 container>
                             <Grid2 flex={1}>
                                 {isAppInitiatedAction && (
-                                    <Button
-                                        variant="contained"
-                                        type="submit"
-                                        color="info"
-                                        name="cancel-aia"
-                                        formNoValidate
-                                    >
+                                    <Button variant="contained" type="submit" color="inherit" name="cancel-aia" formNoValidate>
                                         {msgStr("doCancel")}
                                     </Button>
                                 )}
                             </Grid2>
                             <Grid2 flex={1} textAlign="right">
-                                <Button
-                                    disabled={!isFormSubmittable}
-                                    variant="contained"
-                                    type="submit"
-                                    color="primary"
-                                >
+                                <Button disabled={!isFormSubmittable} variant="contained" type="submit" color="primary">
                                     {msgStr("doSubmit")}
                                 </Button>
                             </Grid2>

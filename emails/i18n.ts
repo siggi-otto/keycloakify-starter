@@ -8,25 +8,26 @@ export const getMessages: GetMessages = props => {
     // this default properties are optional, if you omit them, they will be taken from a base theme
     if (props.locale === "de") {
         return {
-            "requiredAction.CONFIGURE_TOTP": "Configure OTP",
-            "requiredAction.TERMS_AND_CONDITIONS": "Terms and Conditions",
-            "requiredAction.UPDATE_PASSWORD": "Update Passwort",
-            "requiredAction.UPDATE_PROFILE": "Update Profile",
-            "requiredAction.VERIFY_EMAIL": "E-Mail verifizieren",
-            "requiredAction.CONFIGURE_RECOVERY_AUTHN_CODES": "Generate Recovery Codes",
+            "requiredAction.CONFIGURE_TOTP": "Mehrfachauthentifizierung konfigurieren",
+            "requiredAction.TERMS_AND_CONDITIONS": "Bedingungen und Konditionen",
+            "requiredAction.UPDATE_PASSWORD": "Passwort aktualisieren",
+            "requiredAction.UPDATE_PROFILE": "Profil aktualisieren",
+            "requiredAction.VERIFY_EMAIL": "E-Mail-Adresse verifizieren",
+            "requiredAction.CONFIGURE_RECOVERY_AUTHN_CODES":
+                "Wiederherstellungscodes generieren",
 
             // # units for link expiration timeout formatting
             // # for languages which have more unit plural forms depending on the value (eg. Czech and other Slavic langs) you can override unit text for some other values like described in the Java choice format which is documented here. For Czech, it would be '{0,choice,0#minut|1#minuta|2#minuty|2<minut}'
             // # https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/MessageFormat.html
             // # https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/ChoiceFormat.html
             "linkExpirationFormatter.timePeriodUnit.seconds":
-                "{0,choice,0#seconds|1#second|1<seconds}",
+                "{0,choice,0#Sekunden|1#Sekunde|1<Sekunden}",
             "linkExpirationFormatter.timePeriodUnit.minutes":
-                "{0,choice,0#minutes|1#minute|1<minutes}",
+                "{0,choice,0#Minuten|1#Minute|1<Minuten}",
             "linkExpirationFormatter.timePeriodUnit.hours":
-                "{0,choice,0#hours|1#hour|1<hours}",
+                "{0,choice,0#Stunden|1#Stunde|1<Stunden}",
             "linkExpirationFormatter.timePeriodUnit.days":
-                "{0,choice,0#days|1#day|1<days}"
+                "{0,choice,0#Tagen|1#Tag|1<Tagen}"
         };
     }
 

@@ -13,7 +13,7 @@ export default function DeleteAccountConfirm(props: PageProps<Extract<KcContext,
     return (
         <Template kcContext={kcContext} i18n={i18n} doUseDefaultCss={doUseDefaultCss} classes={classes} headerNode={msg("deleteAccountConfirm")}>
             <form action={url.loginAction} className="form-vertical" method="post">
-                <Alert variant="filled" severity="warning">
+                <Alert variant="outlined" severity="error">
                     {msg("irreversibleAction")}
                 </Alert>
 
@@ -32,18 +32,18 @@ export default function DeleteAccountConfirm(props: PageProps<Extract<KcContext,
                     <p>{msg("finalDeletionConfirmation")}</p>
                 </Grid2>
                 <Grid2 container sx={{ mt: 4 }}>
-                    <Grid2 flex={1}>
-                        <Button type="submit" variant="contained" color="primary">
-                            {msgStr("doConfirmDelete")}
-                        </Button>
-                    </Grid2>
                     {triggered_from_aia && (
-                        <Grid2 flex={1} textAlign="right">
-                            <Button type="submit" value="true" name="cancel-aia">
+                        <Grid2 flex={1} textAlign="left">
+                            <Button type="submit" value="true" name="cancel-aia" variant="contained" color="inherit">
                                 {msgStr("doCancel")}
                             </Button>
                         </Grid2>
                     )}
+                    <Grid2 flex={1} textAlign="right">
+                        <Button type="submit" variant="contained" color="primary">
+                            {msgStr("doConfirmDelete")}
+                        </Button>
+                    </Grid2>
                 </Grid2>
             </form>
         </Template>
