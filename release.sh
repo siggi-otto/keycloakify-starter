@@ -18,6 +18,7 @@ start_keycloak              Start Keycloak to test theme in a real Keycloak envi
 add_template                Add a keycloak page / template that you like to customize
 add_story                   Add a page / template to the storybook, for life preview.
 build_theme
+email_preview
 
 EOF
 	exit 1
@@ -55,6 +56,10 @@ build_theme() {
   yarn build-keycloak-theme
 }
 
+email_preview() {
+  yarn email preview ./emails/templates
+}
+
 OPERATION=${1:-}
 
 case ${OPERATION} in
@@ -81,6 +86,9 @@ upgrade)
 	;;
 build_theme)
 	build_theme
+	;;
+email_preview)
+	email_preview
 	;;
 *)
 	exit_with_usage
