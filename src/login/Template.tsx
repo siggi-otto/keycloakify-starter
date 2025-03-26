@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { assert } from "keycloakify/tools/assert";
 import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
 import { useInsertScriptTags } from "keycloakify/tools/useInsertScriptTags";
@@ -7,6 +6,7 @@ import { useInsertLinkTags } from "keycloakify/tools/useInsertLinkTags";
 import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import "./template.css";
 import {
 	Alert,
 	Button,
@@ -18,10 +18,9 @@ import {
 	MenuItem,
 	Paper,
 	Select,
-	SelectChangeEvent,
 	ThemeProvider,
 	Typography,
-	createTheme
+	createTheme, Link
 } from "@mui/material";
 import Footer from "./Footer";
 import { MessageKey_defaultSet } from "keycloakify/login/i18n";
@@ -32,7 +31,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 		displayMessage = true,
 		displayRequiredFields = false,
 		headerNode,
-		socialProvidersNode = null,
 		infoNode = null,
 		documentTitle,
 		bodyClassName,
@@ -45,9 +43,9 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
 	const { kcClsx } = getKcClsx({ doUseDefaultCss, classes });
 
-	const { msg, msgStr, getChangeLocaleUrl, labelBySupportedLanguageTag, currentLanguageTag } = i18n;
+	const { msg, msgStr, currentLanguage, enabledLanguages} = i18n;
 
-	const { realm, locale, auth, url, message, isAppInitiatedAction, authenticationSession, scripts } = kcContext;
+	const { realm, auth, url, message, isAppInitiatedAction, scripts } = kcContext;
 
 	useEffect(() => {
 		document.title = documentTitle ?? msgStr("loginTitle", kcContext.realm.displayName);
@@ -62,18 +60,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 		qualifiedName: "body",
 		className: bodyClassName ?? kcClsx("kcBodyClass")
 	});
-
-	useEffect(() => {
-		const { currentLanguageTag } = locale ?? {};
-
-		if (currentLanguageTag === undefined) {
-			return;
-		}
-
-		const html = document.querySelector("html");
-		assert(html !== null);
-		html.lang = currentLanguageTag;
-	}, []);
 
 	const { areAllStyleSheetsLoaded } = useInsertLinkTags({
 		componentOrHookName: "Template",
@@ -95,22 +81,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 				type: "module",
 				src: `${url.resourcesPath}/js/menu-button-links.js`
 			},
-			...(authenticationSession === undefined
-				? []
-				: [
-					{
-						type: "module",
-						textContent: [
-							`import { checkCookiesAndSetTimer } from "${url.resourcesPath}/js/authChecker.js";`,
-							``,
-							`checkCookiesAndSetTimer(`,
-							`  "${authenticationSession.authSessionId}",`,
-							`  "${authenticationSession.tabId}",`,
-							`  "${url.ssoLoginInOtherTabsUrl}"`,
-							`);`
-						].join("\n")
-					} as const
-				]),
+			// @ts-ignore
 			...scripts.map(
 				script =>
 					({
@@ -145,103 +116,105 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Container maxWidth="xl" sx={{ textAlign: "center", p: 2 }}>
-				<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} />
-				<Typography variant="h4" color="primary">
-					{msg("loginTitleHtml", realm.displayNameHtml)}
-				</Typography>
-			</Container>
-			<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1 }}>
-				<Grid container spacing={2} direction="column">
-					<Grid item>
-						{(() => {
-							const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-								<Grid container alignItems="center" spacing={2}>
-									<Grid item flex={1}>
-										<Typography variant="h6" color="gray">
-											{headerNode}
-										</Typography>
-									</Grid>
-									{realm.internationalizationEnabled && (assert(locale !== undefined), locale.supported.length > 1) && (
-										<Grid item>
-											<FormControl fullWidth>
-												<InputLabel id="lang-select-label">{msgStr("languages")}</InputLabel>
-												<Select
-													size="small"
-													labelId="lang-select-label"
-													label={msgStr("languages")}
-													value={currentLanguageTag}
-													onChange={(e: SelectChangeEvent) => (window.location.href = getChangeLocaleUrl(e.target.value))}
-												>
-													{locale.supported.map(({ languageTag }) => (
-														<MenuItem key={languageTag} value={languageTag}>
-															{labelBySupportedLanguageTag[languageTag]}
-														</MenuItem>
-													))}
-												</Select>
-											</FormControl>
-										</Grid>
-									)}
-								</Grid>
-							) : (
-								<Card sx={{ p: 2 }}>
-									<Typography textAlign="center" variant="body1" sx={{ mb: 1 }}>
-										{auth.attemptedUsername}
-									</Typography>
-									<Button fullWidth color="secondary" href={url.loginRestartFlowUrl}>
-										{msgStr("restartLoginTooltip")}
-									</Button>
-								</Card>
-							);
-
-							return node;
-						})()}
-					</Grid>
-					{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-					{displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
-						<Grid item>
-							<Alert severity={message.type}>
-								<span dangerouslySetInnerHTML={{ __html: message.summary }} />
-							</Alert>
-						</Grid>
-					)}
-					{displayRequiredFields && (
-						<Grid item typography="caption" textAlign="right">
-							<span className="required">*</span>
-							{msg("requiredFields")}
-						</Grid>
-					)}
-					<Grid item typography="body1">
-						{children}
-					</Grid>
-					{auth !== undefined && auth.showTryAnotherWayLink && (
-						<form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
-							<div className={kcClsx("kcFormGroupClass")}>
-								<div className={kcClsx("kcFormGroupClass")}>
-									<input type="hidden" name="tryAnotherWay" value="on" />
-									<a
-										href="#"
-										id="try-another-way"
-										onClick={() => {
-											document.forms["kc-select-try-another-way-form" as never].submit();
-											return false;
-										}}
-									>
-										{msg("doTryAnotherWay")}
-									</a>
-								</div>
+			<div style={{
+					 backgroundImage: `url(${import.meta.env.BASE_URL + 'img/orbidder-background.png'})`,
+					 backgroundSize: 'cover',
+					 backgroundRepeat: 'no-repeat',
+					 height: '100vh',
+					 opacity: 0.9
+				 }}>
+				<Container component={Paper} maxWidth="sm" sx={{ p: 2, borderRadius: 2 }}
+						   style={{
+							   position: 'absolute',
+							   left: '50%',
+							   top: '60%',
+							   transform: 'translate(-50%, -50%)'
+						   }}>
+					<Container maxWidth="xl" sx={{ textAlign: "center", p: 2, borderRadius: 2 }}>
+						<div className="logo-with-text">
+							<img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
+							<div className='text-on-logo'>
+								<Typography variant="h5" color="primary">
+									for {msg("loginTitleHtml", realm.displayNameHtml)}
+								</Typography>
 							</div>
-						</form>
-					)}
-					{socialProvidersNode}
-					{displayInfo && (
-						<Grid item textAlign="center" typography="body2">
-							{infoNode}
+						</div>
+					</Container>
+					<Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1, borderRadius: 2 }}>
+						<Grid container spacing={2} direction="column">
+							<Grid item>
+								{(() => {
+									const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
+										<Grid container alignItems="center" spacing={2}>
+											<Grid item flex={1}>
+												<Typography variant="h6" color="gray">
+													{headerNode}
+												</Typography>
+											</Grid>
+											{enabledLanguages.length > 1 && (
+												<Grid item>
+													<FormControl fullWidth>
+														<InputLabel id="lang-select-label">{msgStr("languages")}</InputLabel>
+														<Select
+															variant="outlined"
+															size="small"
+															labelId="lang-select-label"
+															label={msgStr("languages")}
+															value={currentLanguage.label}
+														>
+															{enabledLanguages.map(({ languageTag, label, href }) => (
+																<MenuItem selected={(languageTag === currentLanguage.languageTag)} key={languageTag} value={label}>
+																	<Link underline="none" color="textPrimary" href={href}>{label}</Link>
+																</MenuItem>
+															))}
+														</Select>
+													</FormControl>
+												</Grid>
+											)}
+										</Grid>
+									) : (
+										<Card sx={{ p: 2 }}>
+											<Typography textAlign="center" variant="body1" sx={{ mb: 1 }}>
+												{auth.attemptedUsername}
+											</Typography>
+											<Button fullWidth color="secondary" href={url.loginRestartFlowUrl}>
+												{msgStr("restartLoginTooltip")}
+											</Button>
+										</Card>
+									);
+
+									return node;
+								})()}
+							</Grid>
+							{/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
+							{displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+								<Grid item>
+									<Alert severity={message.type}>
+										<span dangerouslySetInnerHTML={{ __html: message.summary }} />
+									</Alert>
+								</Grid>
+							)}
+							{displayRequiredFields && (
+								<Grid item typography="caption" textAlign="right">
+									<span className="required">*</span>
+									{msg("requiredFields")}
+								</Grid>
+							)}
+							<Grid item typography="body1">
+								{children}
+							</Grid>
+							{displayInfo && (
+								<Grid item textAlign="center" typography="body2">
+									{infoNode}
+								</Grid>
+							)}
 						</Grid>
-					)}
-				</Grid>
-			</Container>
-			<Footer translate={(key: string) => msgStr(key as MessageKey_defaultSet)} />
-		</ThemeProvider>
+					</Container>
+					<Footer translate={(key: string) => msgStr(key as MessageKey_defaultSet)} />
+				</Container>
+			</div>
+			</ThemeProvider>
+
+
 	);
 }

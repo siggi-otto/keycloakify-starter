@@ -1,4 +1,5 @@
 import { Link, List, ListItem, Typography } from "@mui/material";
+import { ReactElement } from "react";
 
 interface FooterProps {
 	// Use basic translation interface without placement subsitution
@@ -54,7 +55,7 @@ interface FooterLinkProps extends FooterProps {
 	text: string;
 }
 
-function FooterLink({ href, text, translate }: FooterLinkProps): JSX.Element {
+function FooterLink({ href, text, translate }: FooterLinkProps): ReactElement {
 	return (
 		<Link color="textSecondary" href={href} target="_blank">
 			{translate(text)}
