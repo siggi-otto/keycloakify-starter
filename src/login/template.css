@@ -1,16 +1,9 @@
-.logo-with-text {
-    position: relative;
-    text-align: center;
-}
-
-.text-on-logo {
-    position: absolute;
-    left: 30%;
-    top: 75%;
-}
-
 .logo {
     width: 80%;
+}
+
+.logo-otto {
+    width: 35%;
 }
 
 body {
