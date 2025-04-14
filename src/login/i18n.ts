@@ -4,26 +4,30 @@ import type { ThemeName } from "../kc.gen";
 
 /** @see: https://docs.keycloakify.dev/features/i18n */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useI18n, ofTypeI18n } = i18nBuilder.withThemeName<ThemeName>().withCustomTranslations({
+const { useI18n, ofTypeI18n } = i18nBuilder
+    .withThemeName<ThemeName>()
+    .withCustomTranslations({
         de: {
             // With this PR, the message show be included, but for now, it isn't:
             // https://github.com/keycloak/keycloak/pull/28962
             "error-user-attribute-required": "Bitte füllen Sie dieses Feld aus.",
             footer_all_rights_reserved: "All rights reserved",
-            footer_author: "Team Siggi",
+            footer_author: "Otto GmbH & Co. KGaA",
             footer_copyright: "Copyright ©",
             footer_imprint: "Impressum",
-            footer_privacy: "Datenschutz"
+            footer_privacy: "Datenschutz",
+            for: "für"
         },
         en: {
             // Needs to be redeclared, otherwhise TypeScript keeps complaining,
             // because resource is declared in the `de`-block.
             "error-user-attribute-required": "Please specify this field.",
             footer_all_rights_reserved: "All rights reserved",
-            footer_author: "Team Siggi",
+            footer_author: "Otto GmbH & Co. KGaA",
             footer_copyright: "Copyright ©",
             footer_imprint: "Imprint",
-            footer_privacy: "Privacy policy"
+            footer_privacy: "Privacy policy",
+            for: "for"
         }
     })
     .build();

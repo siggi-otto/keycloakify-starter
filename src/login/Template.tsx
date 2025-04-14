@@ -140,7 +140,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                             </Grid2>
                             <Grid2>
                                 <Typography variant="h5" color="primary">
-                                    for {msg("loginTitleHtml", realm.displayNameHtml)}
+                                    {msgStr("for")} {msg("loginTitleHtml", realm.displayNameHtml)}
                                 </Typography>
                             </Grid2>
                         </Grid2>
