@@ -21,7 +21,8 @@ import {
     ThemeProvider,
     Typography,
     createTheme,
-    Link
+    Link,
+    Grid2
 } from "@mui/material";
 import Footer from "./Footer";
 import { MessageKey_defaultSet } from "keycloakify/login/i18n";
@@ -130,14 +131,19 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
             >
                 <Container component={Paper} maxWidth="sm" sx={{ p: 2, borderRadius: 2 }}>
                     <Container maxWidth="xl" sx={{ textAlign: "center", p: 2, borderRadius: 2 }}>
-                        <div className="logo-with-text">
-                            <img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
-                            <div className="text-on-logo">
+                        <Grid2 container spacing={0} direction="column" sx={{ textAlign: "center" }}>
+                            <Grid2>
+                                <img src={`${import.meta.env.BASE_URL}img/orbidder-skylab.png`} className={"logo"} />
+                            </Grid2>
+                            <Grid2 sx={{ mt: -3, textAlign: "right" }}>
+                                <img src={`${import.meta.env.BASE_URL}img/OTTO_Advertising_Logo_OTTOred.png`} className={"logo-otto"} />
+                            </Grid2>
+                            <Grid2>
                                 <Typography variant="h5" color="primary">
                                     for {msg("loginTitleHtml", realm.displayNameHtml)}
                                 </Typography>
-                            </div>
-                        </div>
+                            </Grid2>
+                        </Grid2>
                     </Container>
                     <Container maxWidth="sm" component={Paper} sx={{ p: 2, mb: 1, borderRadius: 2 }}>
                         <Grid container spacing={2} direction="column">
