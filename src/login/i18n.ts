@@ -16,7 +16,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             footer_copyright: "Copyright ©",
             footer_imprint: "Impressum",
             footer_privacy: "Datenschutz",
-            for: "für"
+            for: "für",
+            emailVerifyInstruction2: "Sie haben keinen Verifizierungscode in Ihrer E-Mail erhalten?"
         },
         en: {
             // Needs to be redeclared, otherwhise TypeScript keeps complaining,
