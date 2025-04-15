@@ -36,71 +36,77 @@ export default function UserProfileFormFields(props: UserProfileFormFieldsProps<
 
     return (
         <Grid container direction="column" spacing={2}>
-            {formFieldStates.map(({ attribute, displayableErrors, valueOrValues }) => {
+            {formFieldStates.map(({attribute, displayableErrors, valueOrValues}) => {
                 return (
                     <Grid item key={attribute.name}>
-                        <FormGroup
-                            sx={{
-                                display: attribute.name === "password-confirm" && !doMakeUserConfirmPassword ? "none" : undefined
-                            }}
-                        >
-                            <div>Lengu:{kcContext.locale?.currentLanguageTag}</div>
-                            <GroupLabel attribute={attribute} groupNameRef={groupNameRef} i18n={i18n} kcClsx={kcClsx} />
-                            {BeforeField !== undefined && (
-                                <BeforeField
+                        {/* set local language to user selected language */}
+                        {attribute.name === "locale" && (
+                            <input id="locale" type="hidden" name="locale" value={i18n.currentLanguage.languageTag}/>
+                        )}
+                        {attribute.name !== "locale" && (
+                            <FormGroup
+                                sx={{
+                                    display: attribute.name === "password-confirm" && !doMakeUserConfirmPassword ? "none" : undefined
+                                }}
+                            >
+                                <GroupLabel attribute={attribute} groupNameRef={groupNameRef} i18n={i18n}
+                                            kcClsx={kcClsx}/>
+                                {BeforeField !== undefined && (
+                                    <BeforeField
+                                        attribute={attribute}
+                                        dispatchFormAction={dispatchFormAction}
+                                        displayableErrors={displayableErrors}
+                                        valueOrValues={valueOrValues}
+                                        kcClsx={kcClsx}
+                                        i18n={i18n}
+                                    />
+                                )}
+                                {attribute.annotations.inputHelperTextBefore !== undefined && (
+                                    <div
+                                        className={kcClsx("kcInputHelperTextBeforeClass")}
+                                        id={`form-help-text-before-${attribute.name}`}
+                                        aria-live="polite"
+                                    >
+                                        {advancedMsg(attribute.annotations.inputHelperTextBefore)}
+                                    </div>
+                                )}
+                                <InputFiledByType
                                     attribute={attribute}
-                                    dispatchFormAction={dispatchFormAction}
-                                    displayableErrors={displayableErrors}
                                     valueOrValues={valueOrValues}
+                                    displayableErrors={displayableErrors}
+                                    dispatchFormAction={dispatchFormAction}
                                     kcClsx={kcClsx}
                                     i18n={i18n}
                                 />
-                            )}
-                            {attribute.annotations.inputHelperTextBefore !== undefined && (
-                                <div
-                                    className={kcClsx("kcInputHelperTextBeforeClass")}
-                                    id={`form-help-text-before-${attribute.name}`}
-                                    aria-live="polite"
-                                >
-                                    {advancedMsg(attribute.annotations.inputHelperTextBefore)}
-                                </div>
-                            )}
-                            <InputFiledByType
-                                attribute={attribute}
-                                valueOrValues={valueOrValues}
-                                displayableErrors={displayableErrors}
-                                dispatchFormAction={dispatchFormAction}
-                                kcClsx={kcClsx}
-                                i18n={i18n}
-                            />
-                            {attribute.annotations.inputHelperTextAfter !== undefined && (
-                                <div
-                                    className={kcClsx("kcInputHelperTextAfterClass")}
-                                    id={`form-help-text-after-${attribute.name}`}
-                                    aria-live="polite"
-                                >
-                                    {advancedMsg(attribute.annotations.inputHelperTextAfter)}
-                                </div>
-                            )}
+                                {attribute.annotations.inputHelperTextAfter !== undefined && (
+                                    <div
+                                        className={kcClsx("kcInputHelperTextAfterClass")}
+                                        id={`form-help-text-after-${attribute.name}`}
+                                        aria-live="polite"
+                                    >
+                                        {advancedMsg(attribute.annotations.inputHelperTextAfter)}
+                                    </div>
+                                )}
 
-                            {AfterField !== undefined && (
-                                <AfterField
-                                    attribute={attribute}
-                                    dispatchFormAction={dispatchFormAction}
-                                    displayableErrors={displayableErrors}
-                                    valueOrValues={valueOrValues}
-                                    kcClsx={kcClsx}
-                                    i18n={i18n}
-                                />
-                            )}
-                            {/* NOTE: Downloading of html5DataAnnotations scripts is done in the useUserProfileForm hook */}
-                        </FormGroup>
+                                {AfterField !== undefined && (
+                                    <AfterField
+                                        attribute={attribute}
+                                        dispatchFormAction={dispatchFormAction}
+                                        displayableErrors={displayableErrors}
+                                        valueOrValues={valueOrValues}
+                                        kcClsx={kcClsx}
+                                        i18n={i18n}
+                                    />
+                                )}
+                                {/* NOTE: Downloading of html5DataAnnotations scripts is done in the useUserProfileForm hook */}
+                            </FormGroup>
+                        )}
                     </Grid>
                 );
             })}
             {/* See: https://github.com/keycloak/keycloak/issues/38029 */}
             {kcContext.locale !== undefined && formFieldStates.find(x => x.attribute.name === "locale") === undefined && (
-                <input id="locale" type="hidden" name="locale" value={i18n.currentLanguage.languageTag} />
+                <input id="locale" type="hidden" name="locale" value={i18n.currentLanguage.languageTag}/>
             )}
         </Grid>
     );
