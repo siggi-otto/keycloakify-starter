@@ -2,10 +2,10 @@ import { useEffect, Fragment, useState } from "react";
 import { assert } from "tsafe/assert";
 import type { KcClsx } from "keycloakify/login/lib/kcClsx";
 import {
-	useUserProfileForm,
-	getButtonToDisplayForMultivaluedAttributeField,
-	type FormAction,
-	type FormFieldError
+    useUserProfileForm,
+    getButtonToDisplayForMultivaluedAttributeField,
+    type FormAction,
+    type FormFieldError
 } from "keycloakify/login/lib/useUserProfileForm";
 import type { UserProfileFormFieldsProps } from "keycloakify/login/UserProfileFormFieldsProps";
 import type { Attribute } from "keycloakify/login/KcContext";
@@ -15,607 +15,612 @@ import { FormControl, FormGroup, Grid, InputLabel, MenuItem, Select, SelectChang
 import PasswordToggle from "./PasswordToggle";
 
 export default function UserProfileFormFields(props: UserProfileFormFieldsProps<KcContext, I18n>) {
-	const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField } = props;
+    const { kcContext, i18n, kcClsx, onIsFormSubmittableValueChange, doMakeUserConfirmPassword, BeforeField, AfterField } = props;
 
-	const { advancedMsg } = i18n;
+    const { advancedMsg } = i18n;
 
-	const {
-		formState: { formFieldStates, isFormSubmittable },
-		dispatchFormAction
-	} = useUserProfileForm({
-		kcContext,
-		i18n,
-		doMakeUserConfirmPassword
-	});
+    const {
+        formState: { formFieldStates, isFormSubmittable },
+        dispatchFormAction
+    } = useUserProfileForm({
+        kcContext,
+        i18n,
+        doMakeUserConfirmPassword
+    });
 
-	useEffect(() => {
-		onIsFormSubmittableValueChange(isFormSubmittable);
-	}, [isFormSubmittable]);
+    useEffect(() => {
+        onIsFormSubmittableValueChange(isFormSubmittable);
+    }, [isFormSubmittable]);
 
-	const groupNameRef = { current: "" };
+    const groupNameRef = { current: "" };
 
-	return (
-		<Grid container direction="column" spacing={2}>
-			{formFieldStates.map(({ attribute, displayableErrors, valueOrValues }) => {
-				return (
-					<Grid item key={attribute.name}>
-						<FormGroup
-							sx={{
-								display: attribute.name === "password-confirm" && !doMakeUserConfirmPassword ? "none" : undefined
-							}}
-						>
-							<GroupLabel attribute={attribute} groupNameRef={groupNameRef} i18n={i18n} kcClsx={kcClsx} />
-							{BeforeField !== undefined && (
-								<BeforeField
-									attribute={attribute}
-									dispatchFormAction={dispatchFormAction}
-									displayableErrors={displayableErrors}
-									valueOrValues={valueOrValues}
-									kcClsx={kcClsx}
-									i18n={i18n}
-								/>
-							)}
-							{attribute.annotations.inputHelperTextBefore !== undefined && (
-								<div
-									className={kcClsx("kcInputHelperTextBeforeClass")}
-									id={`form-help-text-before-${attribute.name}`}
-									aria-live="polite"
-								>
-									{advancedMsg(attribute.annotations.inputHelperTextBefore)}
-								</div>
-							)}
-							<InputFiledByType
-								attribute={attribute}
-								valueOrValues={valueOrValues}
-								displayableErrors={displayableErrors}
-								dispatchFormAction={dispatchFormAction}
-								kcClsx={kcClsx}
-								i18n={i18n}
-							/>
-							{attribute.annotations.inputHelperTextAfter !== undefined && (
-								<div
-									className={kcClsx("kcInputHelperTextAfterClass")}
-									id={`form-help-text-after-${attribute.name}`}
-									aria-live="polite"
-								>
-									{advancedMsg(attribute.annotations.inputHelperTextAfter)}
-								</div>
-							)}
+    return (
+        <Grid container direction="column" spacing={2}>
+            {formFieldStates.map(({ attribute, displayableErrors, valueOrValues }) => {
+                return (
+                    <Grid item key={attribute.name}>
+                        <FormGroup
+                            sx={{
+                                display: attribute.name === "password-confirm" && !doMakeUserConfirmPassword ? "none" : undefined
+                            }}
+                        >
+                            <div>Lengu:{kcContext.locale?.currentLanguageTag}</div>
+                            <GroupLabel attribute={attribute} groupNameRef={groupNameRef} i18n={i18n} kcClsx={kcClsx} />
+                            {BeforeField !== undefined && (
+                                <BeforeField
+                                    attribute={attribute}
+                                    dispatchFormAction={dispatchFormAction}
+                                    displayableErrors={displayableErrors}
+                                    valueOrValues={valueOrValues}
+                                    kcClsx={kcClsx}
+                                    i18n={i18n}
+                                />
+                            )}
+                            {attribute.annotations.inputHelperTextBefore !== undefined && (
+                                <div
+                                    className={kcClsx("kcInputHelperTextBeforeClass")}
+                                    id={`form-help-text-before-${attribute.name}`}
+                                    aria-live="polite"
+                                >
+                                    {advancedMsg(attribute.annotations.inputHelperTextBefore)}
+                                </div>
+                            )}
+                            <InputFiledByType
+                                attribute={attribute}
+                                valueOrValues={valueOrValues}
+                                displayableErrors={displayableErrors}
+                                dispatchFormAction={dispatchFormAction}
+                                kcClsx={kcClsx}
+                                i18n={i18n}
+                            />
+                            {attribute.annotations.inputHelperTextAfter !== undefined && (
+                                <div
+                                    className={kcClsx("kcInputHelperTextAfterClass")}
+                                    id={`form-help-text-after-${attribute.name}`}
+                                    aria-live="polite"
+                                >
+                                    {advancedMsg(attribute.annotations.inputHelperTextAfter)}
+                                </div>
+                            )}
 
-							{AfterField !== undefined && (
-								<AfterField
-									attribute={attribute}
-									dispatchFormAction={dispatchFormAction}
-									displayableErrors={displayableErrors}
-									valueOrValues={valueOrValues}
-									kcClsx={kcClsx}
-									i18n={i18n}
-								/>
-							)}
-							{/* NOTE: Downloading of html5DataAnnotations scripts is done in the useUserProfileForm hook */}
-						</FormGroup>
-					</Grid>
-				);
-			})}
-		</Grid>
-	);
+                            {AfterField !== undefined && (
+                                <AfterField
+                                    attribute={attribute}
+                                    dispatchFormAction={dispatchFormAction}
+                                    displayableErrors={displayableErrors}
+                                    valueOrValues={valueOrValues}
+                                    kcClsx={kcClsx}
+                                    i18n={i18n}
+                                />
+                            )}
+                            {/* NOTE: Downloading of html5DataAnnotations scripts is done in the useUserProfileForm hook */}
+                        </FormGroup>
+                    </Grid>
+                );
+            })}
+            {/* See: https://github.com/keycloak/keycloak/issues/38029 */}
+            {kcContext.locale !== undefined && formFieldStates.find(x => x.attribute.name === "locale") === undefined && (
+                <input id="locale" type="hidden" name="locale" value={i18n.currentLanguage.languageTag} />
+            )}
+        </Grid>
+    );
 }
 
 function GroupLabel(props: {
-	attribute: Attribute;
-	groupNameRef: {
-		current: string;
-	};
-	i18n: I18n;
-	kcClsx: KcClsx;
+    attribute: Attribute;
+    groupNameRef: {
+        current: string;
+    };
+    i18n: I18n;
+    kcClsx: KcClsx;
 }) {
-	const { attribute, groupNameRef, i18n, kcClsx } = props;
+    const { attribute, groupNameRef, i18n, kcClsx } = props;
 
-	const { advancedMsg } = i18n;
+    const { advancedMsg } = i18n;
 
-	if (attribute.group?.name !== groupNameRef.current) {
-		groupNameRef.current = attribute.group?.name ?? "";
+    if (attribute.group?.name !== groupNameRef.current) {
+        groupNameRef.current = attribute.group?.name ?? "";
 
-		if (groupNameRef.current !== "") {
-			assert(attribute.group !== undefined);
+        if (groupNameRef.current !== "") {
+            assert(attribute.group !== undefined);
 
-			return (
-				<div
-					className={kcClsx("kcFormGroupClass")}
-					{...Object.fromEntries(Object.entries(attribute.group.html5DataAnnotations).map(([key, value]) => [`data-${key}`, value]))}
-				>
-					{(() => {
-						const groupDisplayHeader = attribute.group.displayHeader ?? "";
-						const groupHeaderText = groupDisplayHeader !== "" ? advancedMsg(groupDisplayHeader) : attribute.group.name;
+            return (
+                <div
+                    className={kcClsx("kcFormGroupClass")}
+                    {...Object.fromEntries(Object.entries(attribute.group.html5DataAnnotations).map(([key, value]) => [`data-${key}`, value]))}
+                >
+                    {(() => {
+                        const groupDisplayHeader = attribute.group.displayHeader ?? "";
+                        const groupHeaderText = groupDisplayHeader !== "" ? advancedMsg(groupDisplayHeader) : attribute.group.name;
 
-						return (
-							<div className={kcClsx("kcContentWrapperClass")}>
-								<label id={`header-${attribute.group.name}`} className={kcClsx("kcFormGroupHeader")}>
-									{groupHeaderText}
-								</label>
-							</div>
-						);
-					})()}
-					{(() => {
-						const groupDisplayDescription = attribute.group.displayDescription ?? "";
+                        return (
+                            <div className={kcClsx("kcContentWrapperClass")}>
+                                <label id={`header-${attribute.group.name}`} className={kcClsx("kcFormGroupHeader")}>
+                                    {groupHeaderText}
+                                </label>
+                            </div>
+                        );
+                    })()}
+                    {(() => {
+                        const groupDisplayDescription = attribute.group.displayDescription ?? "";
 
-						if (groupDisplayDescription !== "") {
-							const groupDescriptionText = advancedMsg(groupDisplayDescription);
+                        if (groupDisplayDescription !== "") {
+                            const groupDescriptionText = advancedMsg(groupDisplayDescription);
 
-							return (
-								<div className={kcClsx("kcLabelWrapperClass")}>
-									<label id={`description-${attribute.group.name}`} className={kcClsx("kcLabelClass")}>
-										{groupDescriptionText}
-									</label>
-								</div>
-							);
-						}
+                            return (
+                                <div className={kcClsx("kcLabelWrapperClass")}>
+                                    <label id={`description-${attribute.group.name}`} className={kcClsx("kcLabelClass")}>
+                                        {groupDescriptionText}
+                                    </label>
+                                </div>
+                            );
+                        }
 
-						return null;
-					})()}
-				</div>
-			);
-		}
-	}
+                        return null;
+                    })()}
+                </div>
+            );
+        }
+    }
 
-	return null;
+    return null;
 }
 
 function FieldErrors(props: { attribute: Attribute; displayableErrors: FormFieldError[]; fieldIndex: number | undefined; kcClsx: KcClsx }) {
-	const { attribute, fieldIndex, kcClsx } = props;
+    const { attribute, fieldIndex, kcClsx } = props;
 
-	const displayableErrors = props.displayableErrors.filter(error => error.fieldIndex === fieldIndex);
+    const displayableErrors = props.displayableErrors.filter(error => error.fieldIndex === fieldIndex);
 
-	if (displayableErrors.length === 0) {
-		return null;
-	}
+    if (displayableErrors.length === 0) {
+        return null;
+    }
 
-	return (
-		<span
-			id={`input-error-${attribute.name}${fieldIndex === undefined ? "" : `-${fieldIndex}`}`}
-			className={kcClsx("kcInputErrorMessageClass")}
-			aria-live="polite"
-		>
-			{displayableErrors
-				.filter(error => error.fieldIndex === fieldIndex)
-				.map(({ errorMessage }, i, arr) => (
-					<Fragment key={i}>
-						{errorMessage}
-						{arr.length - 1 !== i && <br />}
-					</Fragment>
-				))}
-		</span>
-	);
+    return (
+        <span
+            id={`input-error-${attribute.name}${fieldIndex === undefined ? "" : `-${fieldIndex}`}`}
+            className={kcClsx("kcInputErrorMessageClass")}
+            aria-live="polite"
+        >
+            {displayableErrors
+                .filter(error => error.fieldIndex === fieldIndex)
+                .map(({ errorMessage }, i, arr) => (
+                    <Fragment key={i}>
+                        {errorMessage}
+                        {arr.length - 1 !== i && <br />}
+                    </Fragment>
+                ))}
+        </span>
+    );
 }
 
 type InputFiledByTypeProps = {
-	attribute: Attribute;
-	valueOrValues: string | string[];
-	displayableErrors: FormFieldError[];
-	dispatchFormAction: React.Dispatch<FormAction>;
-	i18n: I18n;
-	kcClsx: KcClsx;
+    attribute: Attribute;
+    valueOrValues: string | string[];
+    displayableErrors: FormFieldError[];
+    dispatchFormAction: React.Dispatch<FormAction>;
+    i18n: I18n;
+    kcClsx: KcClsx;
 };
 
 function InputFiledByType(props: InputFiledByTypeProps) {
-	const { attribute, valueOrValues } = props;
+    const { attribute, valueOrValues } = props;
 
-	switch (attribute.annotations.inputType) {
-		case "textarea":
-			return <TextareaTag {...props} />;
-		case "select":
-		case "multiselect":
-			return <SelectTag {...props} />;
-		case "select-radiobuttons":
-		case "multiselect-checkboxes":
-			return <InputTagSelects {...props} />;
-		default: {
-			if (valueOrValues instanceof Array) {
-				return (
-					<>
-						{valueOrValues.map((...[, i]) => (
-							<InputTag key={i} {...props} fieldIndex={i} />
-						))}
-					</>
-				);
-			}
+    switch (attribute.annotations.inputType) {
+        case "textarea":
+            return <TextareaTag {...props} />;
+        case "select":
+        case "multiselect":
+            return <SelectTag {...props} />;
+        case "select-radiobuttons":
+        case "multiselect-checkboxes":
+            return <InputTagSelects {...props} />;
+        default: {
+            if (valueOrValues instanceof Array) {
+                return (
+                    <>
+                        {valueOrValues.map((...[, i]) => (
+                            <InputTag key={i} {...props} fieldIndex={i} />
+                        ))}
+                    </>
+                );
+            }
 
-			return <InputTag {...props} fieldIndex={undefined} />;
-		}
-	}
+            return <InputTag {...props} fieldIndex={undefined} />;
+        }
+    }
 }
 
 function InputTag(props: InputFiledByTypeProps & { fieldIndex: number | undefined }) {
-	const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors } = props;
-	const isPassword = attribute.name === "password" || attribute.name === "password-confirm";
-	const errorMessageStr = props.displayableErrors.find(error => error.fieldIndex === fieldIndex)?.errorMessageStr;
-	const [passwordVisible, setPasswordVisible] = useState(false);
+    const { attribute, fieldIndex, kcClsx, dispatchFormAction, valueOrValues, i18n, displayableErrors } = props;
+    const isPassword = attribute.name === "password" || attribute.name === "password-confirm";
+    const errorMessageStr = props.displayableErrors.find(error => error.fieldIndex === fieldIndex)?.errorMessageStr;
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
-	return (
-		<>
-			<TextField
-				label={i18n.advancedMsgStr(attribute.displayName || "") + (attribute.required && " *")}
-				type={(() => {
-					const { inputType } = attribute.annotations;
+    return (
+        <>
+            <TextField
+                label={i18n.advancedMsgStr(attribute.displayName || "") + (attribute.required && " *")}
+                type={(() => {
+                    const { inputType } = attribute.annotations;
 
-					if (inputType?.startsWith("html5-")) {
-						return inputType.slice(6);
-					}
-					return inputType ?? (!isPassword || passwordVisible ? "text" : "password");
-				})()}
-				id={attribute.name}
-				name={attribute.name}
-				aria-errormessage={errorMessageStr}
-				value={(() => {
-					if (fieldIndex !== undefined) {
-						assert(valueOrValues instanceof Array);
-						return valueOrValues[fieldIndex];
-					}
+                    if (inputType?.startsWith("html5-")) {
+                        return inputType.slice(6);
+                    }
+                    return inputType ?? (!isPassword || passwordVisible ? "text" : "password");
+                })()}
+                id={attribute.name}
+                name={attribute.name}
+                aria-errormessage={errorMessageStr}
+                value={(() => {
+                    if (fieldIndex !== undefined) {
+                        assert(valueOrValues instanceof Array);
+                        return valueOrValues[fieldIndex];
+                    }
 
-					assert(typeof valueOrValues === "string");
+                    assert(typeof valueOrValues === "string");
 
-					return valueOrValues;
-				})()}
-				fullWidth
-				disabled={attribute.readOnly}
-				autoComplete={attribute.autocomplete}
-				placeholder={attribute.annotations.inputTypePlaceholder}
-				inputProps={{
-					minLength: attribute.annotations.inputTypeMinlength && parseInt(`${attribute.annotations.inputTypeMinlength}`),
-					maxLength: attribute.annotations.inputTypeMaxlength && parseInt(`${attribute.annotations.inputTypeMaxlength}`),
-					pattern: attribute.annotations.inputTypePattern
-				}}
-				InputProps={{
-					endAdornment: isPassword && (
-						<PasswordToggle
-							passwordVisible={passwordVisible}
-							controls={attribute.name}
-							setPasswordVisible={setPasswordVisible}
-							i18n={i18n}
-						/>
-					)
-				}}
-				{...Object.fromEntries(Object.entries(attribute.html5DataAnnotations ?? {}).map(([key, value]) => [`data-${key}`, value]))}
-				onChange={event =>
-					dispatchFormAction({
-						action: "update",
-						name: attribute.name,
-						valueOrValues: (() => {
-							if (fieldIndex !== undefined) {
-								assert(valueOrValues instanceof Array);
+                    return valueOrValues;
+                })()}
+                fullWidth
+                disabled={attribute.readOnly}
+                autoComplete={attribute.autocomplete}
+                placeholder={attribute.annotations.inputTypePlaceholder}
+                inputProps={{
+                    minLength: attribute.annotations.inputTypeMinlength && parseInt(`${attribute.annotations.inputTypeMinlength}`),
+                    maxLength: attribute.annotations.inputTypeMaxlength && parseInt(`${attribute.annotations.inputTypeMaxlength}`),
+                    pattern: attribute.annotations.inputTypePattern
+                }}
+                InputProps={{
+                    endAdornment: isPassword && (
+                        <PasswordToggle
+                            passwordVisible={passwordVisible}
+                            controls={attribute.name}
+                            setPasswordVisible={setPasswordVisible}
+                            i18n={i18n}
+                        />
+                    )
+                }}
+                {...Object.fromEntries(Object.entries(attribute.html5DataAnnotations ?? {}).map(([key, value]) => [`data-${key}`, value]))}
+                onChange={event =>
+                    dispatchFormAction({
+                        action: "update",
+                        name: attribute.name,
+                        valueOrValues: (() => {
+                            if (fieldIndex !== undefined) {
+                                assert(valueOrValues instanceof Array);
 
-								return valueOrValues.map((value, i) => {
-									if (i === fieldIndex) {
-										return event.target.value;
-									}
+                                return valueOrValues.map((value, i) => {
+                                    if (i === fieldIndex) {
+                                        return event.target.value;
+                                    }
 
-									return value;
-								});
-							}
+                                    return value;
+                                });
+                            }
 
-							return event.target.value;
-						})()
-					})
-				}
-				onBlur={() =>
-					dispatchFormAction({
-						action: "focus lost",
-						name: attribute.name,
-						fieldIndex: fieldIndex
-					})
-				}
-				error={displayableErrors.length > 0}
-				helperText={errorMessageStr}
-			/>
-			{(() => {
-				if (fieldIndex === undefined) {
-					return null;
-				}
+                            return event.target.value;
+                        })()
+                    })
+                }
+                onBlur={() =>
+                    dispatchFormAction({
+                        action: "focus lost",
+                        name: attribute.name,
+                        fieldIndex: fieldIndex
+                    })
+                }
+                error={displayableErrors.length > 0}
+                helperText={errorMessageStr}
+            />
+            {(() => {
+                if (fieldIndex === undefined) {
+                    return null;
+                }
 
-				assert(valueOrValues instanceof Array);
+                assert(valueOrValues instanceof Array);
 
-				const values = valueOrValues;
+                const values = valueOrValues;
 
-				return (
-					<>
-						<FieldErrors attribute={attribute} kcClsx={kcClsx} displayableErrors={displayableErrors} fieldIndex={fieldIndex} />
-						<AddRemoveButtonsMultiValuedAttribute
-							attribute={attribute}
-							values={values}
-							fieldIndex={fieldIndex}
-							dispatchFormAction={dispatchFormAction}
-							i18n={i18n}
-						/>
-					</>
-				);
-			})()}
-		</>
-	);
+                return (
+                    <>
+                        <FieldErrors attribute={attribute} kcClsx={kcClsx} displayableErrors={displayableErrors} fieldIndex={fieldIndex} />
+                        <AddRemoveButtonsMultiValuedAttribute
+                            attribute={attribute}
+                            values={values}
+                            fieldIndex={fieldIndex}
+                            dispatchFormAction={dispatchFormAction}
+                            i18n={i18n}
+                        />
+                    </>
+                );
+            })()}
+        </>
+    );
 }
 
 function AddRemoveButtonsMultiValuedAttribute(props: {
-	attribute: Attribute;
-	values: string[];
-	fieldIndex: number;
-	dispatchFormAction: React.Dispatch<Extract<FormAction, { action: "update" }>>;
-	i18n: I18n;
+    attribute: Attribute;
+    values: string[];
+    fieldIndex: number;
+    dispatchFormAction: React.Dispatch<Extract<FormAction, { action: "update" }>>;
+    i18n: I18n;
 }) {
-	const { attribute, values, fieldIndex, dispatchFormAction, i18n } = props;
+    const { attribute, values, fieldIndex, dispatchFormAction, i18n } = props;
 
-	const { msg } = i18n;
+    const { msg } = i18n;
 
-	const { hasAdd, hasRemove } = getButtonToDisplayForMultivaluedAttributeField({ attribute, values, fieldIndex });
+    const { hasAdd, hasRemove } = getButtonToDisplayForMultivaluedAttributeField({ attribute, values, fieldIndex });
 
-	const idPostfix = `-${attribute.name}-${fieldIndex + 1}`;
+    const idPostfix = `-${attribute.name}-${fieldIndex + 1}`;
 
-	return (
-		<>
-			{hasRemove && (
-				<>
-					<button
-						id={`kc-remove${idPostfix}`}
-						type="button"
-						className="pf-c-button pf-m-inline pf-m-link"
-						onClick={() =>
-							dispatchFormAction({
-								action: "update",
-								name: attribute.name,
-								valueOrValues: values.filter((_, i) => i !== fieldIndex)
-							})
-						}
-					>
-						{msg("remove")}
-					</button>
-					{hasAdd ? <>&nbsp;|&nbsp;</> : null}
-				</>
-			)}
-			{hasAdd && (
-				<button
-					id={`kc-add${idPostfix}`}
-					type="button"
-					className="pf-c-button pf-m-inline pf-m-link"
-					onClick={() =>
-						dispatchFormAction({
-							action: "update",
-							name: attribute.name,
-							valueOrValues: [...values, ""]
-						})
-					}
-				>
-					{msg("addValue")}
-				</button>
-			)}
-		</>
-	);
+    return (
+        <>
+            {hasRemove && (
+                <>
+                    <button
+                        id={`kc-remove${idPostfix}`}
+                        type="button"
+                        className="pf-c-button pf-m-inline pf-m-link"
+                        onClick={() =>
+                            dispatchFormAction({
+                                action: "update",
+                                name: attribute.name,
+                                valueOrValues: values.filter((_, i) => i !== fieldIndex)
+                            })
+                        }
+                    >
+                        {msg("remove")}
+                    </button>
+                    {hasAdd ? <>&nbsp;|&nbsp;</> : null}
+                </>
+            )}
+            {hasAdd && (
+                <button
+                    id={`kc-add${idPostfix}`}
+                    type="button"
+                    className="pf-c-button pf-m-inline pf-m-link"
+                    onClick={() =>
+                        dispatchFormAction({
+                            action: "update",
+                            name: attribute.name,
+                            valueOrValues: [...values, ""]
+                        })
+                    }
+                >
+                    {msg("addValue")}
+                </button>
+            )}
+        </>
+    );
 }
 
 function InputTagSelects(props: InputFiledByTypeProps) {
-	const { attribute, dispatchFormAction, kcClsx, valueOrValues } = props;
+    const { attribute, dispatchFormAction, kcClsx, valueOrValues } = props;
 
-	const { advancedMsg } = props.i18n;
+    const { advancedMsg } = props.i18n;
 
-	const { classDiv, classInput, classLabel, inputType } = (() => {
-		const { inputType } = attribute.annotations;
+    const { classDiv, classInput, classLabel, inputType } = (() => {
+        const { inputType } = attribute.annotations;
 
-		assert(inputType === "select-radiobuttons" || inputType === "multiselect-checkboxes");
+        assert(inputType === "select-radiobuttons" || inputType === "multiselect-checkboxes");
 
-		switch (inputType) {
-			case "select-radiobuttons":
-				return {
-					inputType: "radio",
-					classDiv: kcClsx("kcInputClassRadio"),
-					classInput: kcClsx("kcInputClassRadioInput"),
-					classLabel: kcClsx("kcInputClassRadioLabel")
-				};
-			case "multiselect-checkboxes":
-				return {
-					inputType: "checkbox",
-					classDiv: kcClsx("kcInputClassCheckbox"),
-					classInput: kcClsx("kcInputClassCheckboxInput"),
-					classLabel: kcClsx("kcInputClassCheckboxLabel")
-				};
-		}
-	})();
+        switch (inputType) {
+            case "select-radiobuttons":
+                return {
+                    inputType: "radio",
+                    classDiv: kcClsx("kcInputClassRadio"),
+                    classInput: kcClsx("kcInputClassRadioInput"),
+                    classLabel: kcClsx("kcInputClassRadioLabel")
+                };
+            case "multiselect-checkboxes":
+                return {
+                    inputType: "checkbox",
+                    classDiv: kcClsx("kcInputClassCheckbox"),
+                    classInput: kcClsx("kcInputClassCheckboxInput"),
+                    classLabel: kcClsx("kcInputClassCheckboxLabel")
+                };
+        }
+    })();
 
-	const options = (() => {
-		walk: {
-			const { inputOptionsFromValidation } = attribute.annotations;
+    const options = (() => {
+        walk: {
+            const { inputOptionsFromValidation } = attribute.annotations;
 
-			if (inputOptionsFromValidation === undefined) {
-				break walk;
-			}
+            if (inputOptionsFromValidation === undefined) {
+                break walk;
+            }
 
-			const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
+            const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
 
-			if (validator === undefined) {
-				break walk;
-			}
+            if (validator === undefined) {
+                break walk;
+            }
 
-			if (validator.options === undefined) {
-				break walk;
-			}
+            if (validator.options === undefined) {
+                break walk;
+            }
 
-			return validator.options;
-		}
+            return validator.options;
+        }
 
-		return attribute.validators.options?.options ?? [];
-	})();
+        return attribute.validators.options?.options ?? [];
+    })();
 
-	return (
-		<>
-			{options.map(option => (
-				<div key={option} className={classDiv}>
-					<input
-						type={inputType}
-						id={`${attribute.name}-${option}`}
-						name={attribute.name}
-						value={option}
-						className={classInput}
-						aria-invalid={props.displayableErrors.length !== 0}
-						disabled={attribute.readOnly}
-						checked={valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option}
-						onChange={event =>
-							dispatchFormAction({
-								action: "update",
-								name: attribute.name,
-								valueOrValues: (() => {
-									const isChecked = event.target.checked;
+    return (
+        <>
+            {options.map(option => (
+                <div key={option} className={classDiv}>
+                    <input
+                        type={inputType}
+                        id={`${attribute.name}-${option}`}
+                        name={attribute.name}
+                        value={option}
+                        className={classInput}
+                        aria-invalid={props.displayableErrors.length !== 0}
+                        disabled={attribute.readOnly}
+                        checked={valueOrValues instanceof Array ? valueOrValues.includes(option) : valueOrValues === option}
+                        onChange={event =>
+                            dispatchFormAction({
+                                action: "update",
+                                name: attribute.name,
+                                valueOrValues: (() => {
+                                    const isChecked = event.target.checked;
 
-									if (valueOrValues instanceof Array) {
-										const newValues = [...valueOrValues];
+                                    if (valueOrValues instanceof Array) {
+                                        const newValues = [...valueOrValues];
 
-										if (isChecked) {
-											newValues.push(option);
-										} else {
-											newValues.splice(newValues.indexOf(option), 1);
-										}
+                                        if (isChecked) {
+                                            newValues.push(option);
+                                        } else {
+                                            newValues.splice(newValues.indexOf(option), 1);
+                                        }
 
-										return newValues;
-									}
+                                        return newValues;
+                                    }
 
-									return event.target.checked ? option : "";
-								})()
-							})
-						}
-						onBlur={() =>
-							dispatchFormAction({
-								action: "focus lost",
-								name: attribute.name,
-								fieldIndex: undefined
-							})
-						}
-					/>
-					<label
-						htmlFor={`${attribute.name}-${option}`}
-						className={`${classLabel}${attribute.readOnly ? ` ${kcClsx("kcInputClassRadioCheckboxLabelDisabled")}` : ""}`}
-					>
-						{advancedMsg(option)}
-					</label>
-				</div>
-			))}
-		</>
-	);
+                                    return event.target.checked ? option : "";
+                                })()
+                            })
+                        }
+                        onBlur={() =>
+                            dispatchFormAction({
+                                action: "focus lost",
+                                name: attribute.name,
+                                fieldIndex: undefined
+                            })
+                        }
+                    />
+                    <label
+                        htmlFor={`${attribute.name}-${option}`}
+                        className={`${classLabel}${attribute.readOnly ? ` ${kcClsx("kcInputClassRadioCheckboxLabelDisabled")}` : ""}`}
+                    >
+                        {advancedMsg(option)}
+                    </label>
+                </div>
+            ))}
+        </>
+    );
 }
 
 function TextareaTag(props: InputFiledByTypeProps) {
-	const { attribute, dispatchFormAction, kcClsx, displayableErrors, valueOrValues } = props;
+    const { attribute, dispatchFormAction, kcClsx, displayableErrors, valueOrValues } = props;
 
-	assert(typeof valueOrValues === "string");
+    assert(typeof valueOrValues === "string");
 
-	const value = valueOrValues;
+    const value = valueOrValues;
 
-	return (
-		<textarea
-			id={attribute.name}
-			name={attribute.name}
-			className={kcClsx("kcInputClass")}
-			aria-invalid={displayableErrors.length !== 0}
-			disabled={attribute.readOnly}
-			cols={attribute.annotations.inputTypeCols === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeCols}`)}
-			rows={attribute.annotations.inputTypeRows === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeRows}`)}
-			maxLength={attribute.annotations.inputTypeMaxlength === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeMaxlength}`)}
-			value={value}
-			onChange={event =>
-				dispatchFormAction({
-					action: "update",
-					name: attribute.name,
-					valueOrValues: event.target.value
-				})
-			}
-			onBlur={() =>
-				dispatchFormAction({
-					action: "focus lost",
-					name: attribute.name,
-					fieldIndex: undefined
-				})
-			}
-		/>
-	);
+    return (
+        <textarea
+            id={attribute.name}
+            name={attribute.name}
+            className={kcClsx("kcInputClass")}
+            aria-invalid={displayableErrors.length !== 0}
+            disabled={attribute.readOnly}
+            cols={attribute.annotations.inputTypeCols === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeCols}`)}
+            rows={attribute.annotations.inputTypeRows === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeRows}`)}
+            maxLength={attribute.annotations.inputTypeMaxlength === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeMaxlength}`)}
+            value={value}
+            onChange={event =>
+                dispatchFormAction({
+                    action: "update",
+                    name: attribute.name,
+                    valueOrValues: event.target.value
+                })
+            }
+            onBlur={() =>
+                dispatchFormAction({
+                    action: "focus lost",
+                    name: attribute.name,
+                    fieldIndex: undefined
+                })
+            }
+        />
+    );
 }
 
 function SelectTag(props: InputFiledByTypeProps) {
-	const { attribute, dispatchFormAction, kcClsx, displayableErrors, i18n, valueOrValues } = props;
-	const { advancedMsg } = i18n;
-	const isMultiple = attribute.annotations.inputType === "multiselect";
-	const label = props.i18n.advancedMsgStr(attribute.displayName ?? "");
+    const { attribute, dispatchFormAction, kcClsx, displayableErrors, i18n, valueOrValues } = props;
+    const { advancedMsg } = i18n;
+    const isMultiple = attribute.annotations.inputType === "multiselect";
+    const label = props.i18n.advancedMsgStr(attribute.displayName ?? "");
 
-	return (
-		<FormControl>
-			<InputLabel id={`label-${attribute.name}`}>{label}</InputLabel>
-			<Select
-				label={label}
-				labelId={`label-${attribute.name}`}
-				id={attribute.name}
-				name={attribute.name}
-				className={kcClsx("kcInputClass")}
-				aria-invalid={displayableErrors.length !== 0}
-				disabled={attribute.readOnly}
-				multiple={isMultiple}
-				inputProps={{
-					size: attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`)
-				}}
-				value={valueOrValues}
-				onChange={(event: SelectChangeEvent<string | string[]>) =>
-					dispatchFormAction({
-						action: "update",
-						name: attribute.name,
-						valueOrValues: event.target.value
-					})
-				}
-				onBlur={() =>
-					dispatchFormAction({
-						action: "focus lost",
-						name: attribute.name,
-						fieldIndex: undefined
-					})
-				}
-			>
-				{(() => {
-					const options = (() => {
-						walk: {
-							const { inputOptionsFromValidation } = attribute.annotations;
+    return (
+        <FormControl>
+            <InputLabel id={`label-${attribute.name}`}>{label}</InputLabel>
+            <Select
+                label={label}
+                labelId={`label-${attribute.name}`}
+                id={attribute.name}
+                name={attribute.name}
+                className={kcClsx("kcInputClass")}
+                aria-invalid={displayableErrors.length !== 0}
+                disabled={attribute.readOnly}
+                multiple={isMultiple}
+                inputProps={{
+                    size: attribute.annotations.inputTypeSize === undefined ? undefined : parseInt(`${attribute.annotations.inputTypeSize}`)
+                }}
+                value={valueOrValues}
+                onChange={(event: SelectChangeEvent<string | string[]>) =>
+                    dispatchFormAction({
+                        action: "update",
+                        name: attribute.name,
+                        valueOrValues: event.target.value
+                    })
+                }
+                onBlur={() =>
+                    dispatchFormAction({
+                        action: "focus lost",
+                        name: attribute.name,
+                        fieldIndex: undefined
+                    })
+                }
+            >
+                {(() => {
+                    const options = (() => {
+                        walk: {
+                            const { inputOptionsFromValidation } = attribute.annotations;
 
-							if (inputOptionsFromValidation === undefined) {
-								break walk;
-							}
+                            if (inputOptionsFromValidation === undefined) {
+                                break walk;
+                            }
 
-							assert(typeof inputOptionsFromValidation === "string");
+                            assert(typeof inputOptionsFromValidation === "string");
 
-							const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
+                            const validator = (attribute.validators as Record<string, { options?: string[] }>)[inputOptionsFromValidation];
 
-							if (validator === undefined) {
-								break walk;
-							}
+                            if (validator === undefined) {
+                                break walk;
+                            }
 
-							if (validator.options === undefined) {
-								break walk;
-							}
+                            if (validator.options === undefined) {
+                                break walk;
+                            }
 
-							return validator.options;
-						}
+                            return validator.options;
+                        }
 
-						return attribute.validators.options?.options ?? [];
-					})();
+                        return attribute.validators.options?.options ?? [];
+                    })();
 
-					return options.map(option => (
-						<MenuItem key={option} value={option}>
-							{(() => {
-								if (attribute.annotations.inputOptionLabels !== undefined) {
-									const { inputOptionLabels } = attribute.annotations;
+                    return options.map(option => (
+                        <MenuItem key={option} value={option}>
+                            {(() => {
+                                if (attribute.annotations.inputOptionLabels !== undefined) {
+                                    const { inputOptionLabels } = attribute.annotations;
 
-									return advancedMsg(inputOptionLabels[option] ?? option);
-								}
+                                    return advancedMsg(inputOptionLabels[option] ?? option);
+                                }
 
-								if (attribute.annotations.inputOptionLabelsI18nPrefix !== undefined) {
-									return advancedMsg(`${attribute.annotations.inputOptionLabelsI18nPrefix}.${option}`);
-								}
+                                if (attribute.annotations.inputOptionLabelsI18nPrefix !== undefined) {
+                                    return advancedMsg(`${attribute.annotations.inputOptionLabelsI18nPrefix}.${option}`);
+                                }
 
-								return option;
-							})()}
-						</MenuItem>
-					));
-				})()}
-			</Select>
-		</FormControl>
-	);
+                                return option;
+                            })()}
+                        </MenuItem>
+                    ));
+                })()}
+            </Select>
+        </FormControl>
+    );
 }
