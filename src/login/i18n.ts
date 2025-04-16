@@ -28,7 +28,8 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             footer_copyright: "Copyright ©",
             footer_imprint: "Imprint",
             footer_privacy: "Privacy policy",
-            for: "for"
+            for: "for",
+            emailVerifyInstruction2: "Haven''t received a verification code in your email?"
         }
     })
     .build();
