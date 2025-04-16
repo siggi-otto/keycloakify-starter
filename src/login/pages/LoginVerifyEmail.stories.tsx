@@ -27,3 +27,14 @@ export const Default: Story = {
         />
     )
 };
+export const German: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                locale: {
+                    currentLanguageTag: "de"
+                }
+            }}
+        />
+    )
+};
