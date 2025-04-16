@@ -32,7 +32,10 @@ export default function Info(props: PageProps<Extract<KcContext, { pageId: "info
                     dangerouslySetInnerHTML={{
                         __html: kcSanitize(
                             (() => {
-                                let html = message.summary;
+                                let html = "";
+                                if (messageHeader) {
+                                    html = message.summary;
+                                }
 
                                 if (requiredActions) {
                                     html += "<b>";
