@@ -25,6 +25,32 @@ export const Default: Story = {
     )
 };
 
+export const EqualHeaderAndSummary: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                messageHeader: "Message",
+                message: {
+                    summary: "Message"
+                }
+            }}
+        />
+    )
+};
+
+export const NoHeader: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                messageHeader: undefined,
+                message: {
+                    summary: "Bestätigen Sie, dass die E-Mail-Adresse {0} gültig ist."
+                }
+            }}
+        />
+    )
+};
+
 export const WithLinkBack: Story = {
     render: () => (
         <KcPageStory
