@@ -48,11 +48,11 @@ export const Template = ({ locale }: TemplateProps) => (
         ) : (
             <>
                 <Text style={paragraph}>
-                    Someone has created a Orbidder account with this email address. If
+                    Someone has created an Orbidder account with this email address. If
                     this was you, click the link below to verify your email address.
                 </Text>
                 <Text style={paragraph}>
-                    <a href={exp("link")}>Link to e-mail address verification</a>
+                    <a href={exp("link")}>Link to email address verification</a>
                 </Text>
                 <Text style={paragraph}>
                     This link will expire within{" "}
